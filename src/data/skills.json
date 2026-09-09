@@ -1,0 +1,93 @@
+[
+  {
+    "id": 1,
+    "name": "Autodesk AutoCAD",
+    "category": "Design Software",
+    "proficiency": 94,
+    "icon": "Layers"
+  },
+  {
+    "id": 2,
+    "name": "Autodesk Revit (BIM)",
+    "category": "Design Software",
+    "proficiency": 88,
+    "icon": "Building2"
+  },
+  {
+    "id": 3,
+    "name": "Trimble SketchUp",
+    "category": "Design Software",
+    "proficiency": 92,
+    "icon": "Box"
+  },
+  {
+    "id": 4,
+    "name": "Rhino 3D & Grasshopper",
+    "category": "Design Software",
+    "proficiency": 80,
+    "icon": "Boxes"
+  },
+  {
+    "id": 5,
+    "name": "Lumion 3D",
+    "category": "Visualization",
+    "proficiency": 90,
+    "icon": "Sparkles"
+  },
+  {
+    "id": 6,
+    "name": "V-Ray & Enscape",
+    "category": "Visualization",
+    "proficiency": 84,
+    "icon": "SunMedium"
+  },
+  {
+    "id": 7,
+    "name": "Adobe Photoshop & Post-production",
+    "category": "Visualization",
+    "proficiency": 92,
+    "icon": "Image"
+  },
+  {
+    "id": 8,
+    "name": "Adobe InDesign & Illustrator",
+    "category": "Visualization",
+    "proficiency": 86,
+    "icon": "Palette"
+  },
+  {
+    "id": 9,
+    "name": "Architectural Working Drawings & Detailing",
+    "category": "Technical",
+    "proficiency": 95,
+    "icon": "Ruler"
+  },
+  {
+    "id": 10,
+    "name": "Climatic Analysis & Passive Design",
+    "category": "Technical",
+    "proficiency": 86,
+    "icon": "Leaf"
+  },
+  {
+    "id": 11,
+    "name": "Physical Prototyping & Model Making",
+    "category": "Technical",
+    "proficiency": 88,
+    "icon": "Scissors"
+  },
+  {
+    "id": 12,
+    "name": "Site Supervision & Vendor Coordination",
+    "category": "Soft Skills",
+    "proficiency": 82,
+    "icon": "HardHat"
+  },
+  {
+    "id": 13,
+    "name": "Client Presentation & Design Storytelling",
+    "category": "Soft Skills",
+    "proficiency": 90,
+    "icon": "Presentation"
+  }
+]

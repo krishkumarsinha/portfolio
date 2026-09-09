@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "title": "The Terraced Courtyard Residence",
+    "category": "Residential",
+    "description": "A climatically responsive multi-generational residence organized around a hierarchy of stepped landscaped courtyards that encourage stack ventilation. The design reinterprets the traditional Gujarati 'Pol' dwelling through contemporary exposed brickwork, terracotta jalis, and deep shading overhangs.",
+    "process": "Initial microclimate analysis was conducted using solar path studies to determine optimal courtyard orientations and shading depths. Massing models in SketchUp were evaluated for cross-ventilation corridors before drafting detailed working drawings in AutoCAD. BIM modeling in Revit facilitated clash detection for MEP and structural integration, while Lumion was utilized to assess diurnal light quality.",
+    "tools": ["AutoCAD", "Revit", "SketchUp", "Lumion", "Photoshop"],
+    "year": "2024",
+    "location": "Ahmedabad, Gujarat",
+    "images": [
+      "/images/projects/project-1-1.jpg",
+      "/images/projects/project-1-2.jpg",
+      "/images/projects/project-1-3.jpg"
+    ],
+    "thumbnail": "/images/projects/project-1-thumb.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Vana Pavilions: Biophilic Tech Hub",
+    "category": "Commercial",
+    "description": "An eco-conscious co-working and startup incubator that integrates porous engineered timber screens with lush vertical green corridors to mitigate heat gain. Designed to blur boundaries between indoor workspaces and tropical courtyard gardens, providing adaptable collaborative zones.",
+    "process": "Form generation began with parametric facade explorations in Rhino and Grasshopper to calculate solar heat gain coefficients across facade orientations. Spatial configurations were iterated to maximize daylight autonomy while mitigating glare on work surfaces. Final architectural documentation and construction details were developed in Revit, complemented by post-processed atmospheric renders in Lumion and Photoshop.",
+    "tools": ["Rhino", "Grasshopper", "Revit", "Lumion", "Photoshop"],
+    "year": "2025",
+    "location": "Bengaluru, Karnataka",
+    "images": [
+      "/images/projects/project-2-1.jpg",
+      "/images/projects/project-2-2.jpg",
+      "/images/projects/project-2-3.jpg"
+    ],
+    "thumbnail": "/images/projects/project-2-thumb.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Sutradhar Atelier & Gallery",
+    "category": "Interior",
+    "description": "Adaptive reuse of a decommissioned textile warehouse in Lower Parel into a contemporary textile art gallery and bespoke fashion design studio. The interior preserves the raw concrete skeleton while introducing fluted acoustic glass partitions, patinated brass joinery, and warm reclaimed teak accents.",
+    "process": "Extensive site measured drawings were digitized in AutoCAD to document existing structural irregularities and high vaulted spans. Material mood boards and lighting simulations were developed to ensure museum-grade color rendering for delicate heritage fabrics. Detailed interior joinery specifications and custom millwork schedules were drafted alongside real-time visualization using SketchUp and Enscape.",
+    "tools": ["AutoCAD", "SketchUp", "Enscape", "Photoshop", "InDesign"],
+    "year": "2024",
+    "location": "Mumbai, Maharashtra",
+    "images": [
+      "/images/projects/project-3-1.jpg",
+      "/images/projects/project-3-2.jpg",
+      "/images/projects/project-3-3.jpg"
+    ],
+    "thumbnail": "/images/projects/project-3-thumb.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Jal-Setu: Monsoon Resilience Network",
+    "category": "Conceptual",
+    "description": "A visionary urban infrastructure and public realm masterplan addressing tidal flooding and rising sea levels in the coastal backwaters of Kochi. The proposal introduces amphibious community pavilions and bio-swale boardwalks that float during high tides and anchor as civic parks during dry seasons.",
+    "process": "Hydrological mapping and flood contour data were analyzed using GIS data and translated into 3D topography models in Rhino. Iterative buoyant massing prototypes and kinetic bridge connections were designed to adapt dynamically to water fluctuations. Speculative narrative sections, exploded axonometrics, and environmental diagrams were rendered using Rhino, V-Ray, and Adobe Illustrator.",
+    "tools": ["Rhino", "AutoCAD", "V-Ray", "Photoshop", "Illustrator"],
+    "year": "2025",
+    "location": "Kochi, Kerala",
+    "images": [
+      "/images/projects/project-4-1.jpg",
+      "/images/projects/project-4-2.jpg",
+      "/images/projects/project-4-3.jpg"
+    ],
+    "thumbnail": "/images/projects/project-4-thumb.jpg"
+  },
+  {
+    "id": 5,
+    "title": "Avani Earth Villa",
+    "category": "Residential",
+    "description": "A low-carbon desert home built primarily of stabilized rammed earth and locally quarried Dholpur sandstone, engineered with high thermal mass to buffer extreme temperature swings. Shaded jaali screens filter arid sunlight and cast dynamic geometric patterns across passive cooling water basins.",
+    "process": "The design prioritized vernacular passive cooling techniques, beginning with sun path and wind tunnel simulations to orient modern wind catcher scoops. Physical cardboard and clay massing models guided the thermal envelope zoning before detailed digital modeling in SketchUp. Technical working sections, rainwater harvesting cistern calculations, and construction sets were finalized in AutoCAD.",
+    "tools": ["AutoCAD", "SketchUp", "Lumion", "Photoshop"],
+    "year": "2023",
+    "location": "Jaipur, Rajasthan",
+    "images": [
+      "/images/projects/project-5-1.jpg",
+      "/images/projects/project-5-2.jpg",
+      "/images/projects/project-5-3.jpg"
+    ],
+    "thumbnail": "/images/projects/project-5-thumb.jpg"
+  },
+  {
+    "id": 6,
+    "title": "Prana: Civic Air Purification Towers",
+    "category": "Conceptual",
+    "description": "A civic installation and environmental monument addressing seasonal smog through modular vertical filtration chambers and urban micro-forests. The kinetic structure serves as both an active particulate filtration node and a shaded public amphitheater for high-density transit hubs.",
+    "process": "Design started with computational fluid dynamics analysis around busy transit corridors to determine optimal air intake and exhaust height profiles. Parametric filigree skins were scripted in Grasshopper to maximize surface contact area for integrated bio-algae filters. Exploded construction axonometrics, photorealistic visualizations, and environmental performance graphics were produced using Rhino, Lumion, and Photoshop.",
+    "tools": ["Rhino", "Grasshopper", "Revit", "Lumion", "Photoshop"],
+    "year": "2024",
+    "location": "New Delhi, NCR",
+    "images": [
+      "/images/projects/project-6-1.jpg",
+      "/images/projects/project-6-2.jpg",
+      "/images/projects/project-6-3.jpg"
+    ],
+    "thumbnail": "/images/projects/project-6-thumb.jpg"
+  }
+]

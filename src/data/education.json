@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "institution": "Faculty of Architecture, CEPT University",
+    "degree": "Bachelor of Architecture (B.Arch)",
+    "dates": "2020 - 2025",
+    "description": "Completed an intensive 5-year professional program focusing on sustainable urbanism, climate-responsive structures, and computational design. Graduated with First Class Distinction and received the Best Studio Project Award.",
+    "location": "Ahmedabad, Gujarat"
+  },
+  {
+    "id": 2,
+    "institution": "Studio Lotus",
+    "degree": "Architectural Trainee (Internship)",
+    "dates": "July 2024 - Dec 2024",
+    "description": "Contributed to schematic design development, BIM model coordination, and municipal drawing sets for high-end hospitality and residential projects. Assisted senior architects during weekly on-site structural inspections and material selections.",
+    "location": "New Delhi, India"
+  },
+  {
+    "id": 3,
+    "institution": "Politecnico di Milano",
+    "degree": "Certificate in Adaptive Reuse & Heritage Conservation",
+    "dates": "June 2023 - July 2023",
+    "description": "Participated in an intensive international summer laboratory investigating structural retrofitting and modern interventions in historic European masonry quarters.",
+    "location": "Milan, Italy"
+  },
+  {
+    "id": 4,
+    "institution": "Delhi Public School, R.K. Puram",
+    "degree": "Higher Secondary Certificate (Grade XII, Science & Arts)",
+    "dates": "2018 - 2020",
+    "description": "Completed Senior Secondary education with focus on Advanced Mathematics, Physics, and Engineering Graphics with an aggregate score of 94.6%.",
+    "location": "New Delhi, India"
+  }
+]

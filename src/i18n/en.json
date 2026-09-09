@@ -1,0 +1,58 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "education": "Education",
+    "projects": "Projects",
+    "connect": "Connect",
+    "social": "Connect"
+  },
+  "hero": {
+    "greeting": "Hello",
+    "name": "Krish Kumar Sinha",
+    "intro": "I am Krish Kumar Sinha,",
+    "title": "Architectural Trainee",
+    "tagline": "Crafting spaces that inspire, one design at a time",
+    "cta": "View My Work"
+  },
+  "about": {
+    "heading": "About Me",
+    "bio": "A passionate architectural trainee with a keen eye for design and a deep appreciation for how spaces shape human experience. Currently seeking opportunities to contribute fresh perspectives and technical skills to innovative architectural projects.",
+    "photoAlt": "Professional portrait"
+  },
+  "skills": {
+    "heading": "Skills & Tools",
+    "subtitle": "Technologies and tools I work with"
+  },
+  "education": {
+    "heading": "Education & Training",
+    "subtitle": "My academic journey"
+  },
+  "projects": {
+    "heading": "Projects",
+    "subtitle": "A selection of my architectural work",
+    "filterAll": "All",
+    "viewDetails": "View Details",
+    "processHeading": "Design Process",
+    "toolsHeading": "Tools Used",
+    "close": "Close"
+  },
+  "social": {
+    "heading": "Let's Connect",
+    "subtitle": "Find me on these platforms"
+  },
+  "footer": {
+    "copyright": "© 2025 Krish Kumar Sinha. All rights reserved.",
+    "builtWith": "Built with React & Tailwind CSS"
+  },
+  "theme": {
+    "toggleDark": "Switch to dark mode",
+    "toggleLight": "Switch to light mode"
+  },
+  "language": {
+    "switch": "Language",
+    "en": "English",
+    "hi": "हिन्दी"
+  }
+}
