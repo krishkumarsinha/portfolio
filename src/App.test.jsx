@@ -10,8 +10,11 @@ describe('App', () => {
 
   it('renders the Hero section', () => {
     render(<App />);
-    expect(screen.getByText('Hello')).toBeInTheDocument();
-    expect(screen.getByText('I am Krish Kumar Sinha,')).toBeInTheDocument();
+    // Mobile + desktop layouts both render these texts (CSS hides one)
+    const hellos = screen.getAllByText('Hello');
+    expect(hellos.length).toBeGreaterThanOrEqual(1);
+    const names = screen.getAllByText('I am Krish Kumar Sinha,');
+    expect(names.length).toBeGreaterThanOrEqual(1);
   });
 
   it('renders the Timeline section', () => {

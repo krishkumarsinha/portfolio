@@ -16,3 +16,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
+
+/* Safe-area padding for notch devices (iPhone X+, etc.) */
+@supports (padding: env(safe-area-inset-top)) {
+  .safe-top    { padding-top:    env(safe-area-inset-top); }
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .safe-left   { padding-left:   env(safe-area-inset-left); }
+  .safe-right  { padding-right:  env(safe-area-inset-right); }
+}
+
+/* Small viewport height for mobile browsers with dynamic toolbars */
+@supports (height: 100svh) {
+  .h-screen-safe { height: 100svh; }
+}
+
+@supports not (height: 100svh) {
+  .h-screen-safe { height: 100vh; }
+}

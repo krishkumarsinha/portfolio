@@ -49,23 +49,54 @@ export const skillCategories = [
       { name: 'AI WEB DEVLOPMENT', rating: 3 },
     ],
   },
+  {
+    title: 'LANGUAGES',
+    skills: [
+      { name: 'ANGIKA', rating: 4 },
+      { name: 'ENGLISH', rating: 3 },
+      { name: 'HINDI', rating: 5 },
+    ],
+  },
+  {
+    title: 'SOFT SKILLS',
+    skills: [
+      { name: 'COMMUNICATION', rating: 5 },
+      { name: 'TEAM LEADERSHIP', rating: 4 },
+      { name: 'PROBLEM SOLVING', rating: 4 },
+    ],
+  },
 ];
 
-// Two columns with all 6 categories, spaced with consistent gap
+// Pairs of categories for row-by-row horizontal alignment
+export const skillPairs = [
+  { left: skillCategories[0], right: skillCategories[2] }, // Row 1: DRAFTING & DOCUMENTATION
+  { left: skillCategories[1], right: skillCategories[3] }, // Row 2: 3D MODELLING & GRAPHICS
+  { left: skillCategories[4], right: skillCategories[5] }, // Row 3: 3D RENDERING & OTHERS
+  { left: skillCategories[6], right: skillCategories[7] }, // Row 4: LANGUAGES & SOFT SKILLS
+];
+
+// Backwards compatibility reference
+export const languagesCategory = skillCategories[6]; // LANGUAGES
+export const softSkillsCategory = skillCategories[7]; // SOFT SKILLS
+
+// Two columns with all categories, spaced with consistent gap
 export const column1Categories = [
   skillCategories[0], // DRAFTING
   skillCategories[1], // 3D MODELLING
   skillCategories[4], // 3D RENDERING
+  skillCategories[6], // LANGUAGES
 ];
 
 export const column2Categories = [
   skillCategories[2], // DOCUMENTATION
   skillCategories[3], // GRAPHICS
   skillCategories[5], // OTHERS
+  skillCategories[7], // SOFT SKILLS
 ];
 
 // Backwards compatibility aliases
 export const proficiencyLeftCategories = column1Categories;
 export const proficiencyRightCategories = column2Categories;
 export const achievementsSkillsCategories = skillCategories.slice(4, 6);
+
 
