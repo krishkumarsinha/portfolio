@@ -1,0 +1,62 @@
+[
+  {
+    "id": "design-1",
+    "title": "Tatva 26 Festival Identity",
+    "category": "Branding",
+    "client": "National Institute of Technology Patna",
+    "year": "2026",
+    "description": "A comprehensive visual identity system and event branding for the annual college fest. The identity bridges geometric architectural grids with dynamic generative wave patterns.",
+    "process": "Explored custom typographic ligatures based on brutalist construction scaffolding. Developed responsive logos across digital signage, merchandise, wristbands, and motion title sequences.",
+    "tools": ["Illustrator", "Photoshop", "Figma", "After Effects"]
+  },
+  {
+    "id": "design-2",
+    "title": "NASA Design Compendium 2025",
+    "category": "Editorial",
+    "client": "NASA India (ANDC Submission)",
+    "year": "2025",
+    "description": "An 84-page architectural monograph and research publication documenting climate-resilient urban prototypes. Features custom typographic hierarchy, Swiss grid layouts, and gold foil stamped covers.",
+    "process": "Constructed a 12-column baseline grid in InDesign to balance high-density technical diagrams, measured architectural drawings, and academic essays. Selected Cormorant Garamond and Neue Haas Grotesk for type pairing.",
+    "tools": ["InDesign", "Illustrator", "Photoshop"]
+  },
+  {
+    "id": "design-3",
+    "title": "Tectonic Form: Architectural Poster Series",
+    "category": "Posters",
+    "client": "Self-Initiated / Studio Project",
+    "year": "2024",
+    "description": "A curated print series celebrating seminal 20th-century brutalist structures across South Asia. Screen-printed in dual-tone silver and matte charcoal pigments.",
+    "process": "Vectorized hand-drafted axonometric projections of iconic buildings, experimenting with exaggerated negative space and constructivist type layout.",
+    "tools": ["Illustrator", "Photoshop", "Screen Printing"]
+  },
+  {
+    "id": "design-4",
+    "title": "Expresso Lit & Art Journal",
+    "category": "Editorial",
+    "client": "Expresso Literary Club",
+    "year": "2024",
+    "description": "Bi-annual student literary anthology featuring poetry, micro-fiction, and fine art prints. Designed with exposed smyth-sewn binding and tactile recycled kraft paper sleeves.",
+    "process": "Curated paper stock weights and tactile page transitions. Established asymmetric editorial spreads that treat poetry and verse as visual forms on the page.",
+    "tools": ["InDesign", "Photoshop"]
+  },
+  {
+    "id": "design-5",
+    "title": "Studio Parametrica Brand System",
+    "category": "Branding",
+    "client": "Parametric Design Collective",
+    "year": "2025",
+    "description": "Identity system for an experimental computational architecture studio. The logo mark responds dynamically to viewport aspect ratio and sound frequencies.",
+    "process": "Scripted vector algorithms in Grasshopper to generate procedural mark iterations, which were then refined into a cohesive design system and brand book.",
+    "tools": ["Figma", "Grasshopper", "Illustrator"]
+  },
+  {
+    "id": "design-6",
+    "title": "Urban Flow: Spatial Wayfinding App",
+    "category": "Digital",
+    "client": "Campus Transit Initiative",
+    "year": "2024",
+    "description": "Minimalist digital signage and mobile navigation UI designed to guide visitors across complex institutional campuses with high-contrast accessibility.",
+    "process": "Conducted on-campus wayfinding user journey mapping. Built interactive Figma design system with WCAG AAA contrast compliance and tactile haptic cues.",
+    "tools": ["Figma", "Illustrator", "Principle"]
+  }
+]

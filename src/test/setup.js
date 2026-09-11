@@ -17,3 +17,12 @@ if (typeof window !== 'undefined' && !window.IntersectionObserver) {
   window.IntersectionObserver = MockIntersectionObserver;
   global.IntersectionObserver = MockIntersectionObserver;
 }
+
+if (typeof window !== 'undefined') {
+  window.scrollTo = () => {};
+  if (window.Window && window.Window.prototype) {
+    window.Window.prototype.scrollTo = () => {};
+  }
+}
+
+

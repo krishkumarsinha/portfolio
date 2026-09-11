@@ -91,9 +91,9 @@ export default function Achievements() {
       {/* ════════════════ MAIN ACHIEVEMENTS CONTENT ════════════════ */}
       <div className="relative w-full max-w-[1440px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 pt-6 sm:pt-8 md:pt-10 lg:pt-12 pb-8 sm:pb-10 lg:pb-14 flex-grow flex flex-col justify-center">
         {/* Centrally aligned 2-group grid with equal spacing from centerline */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-12 sm:gap-y-16 lg:gap-y-0 max-w-[960px] lg:max-w-[1040px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-12 sm:gap-y-16 md:gap-y-0 max-w-[960px] lg:max-w-[1040px] mx-auto">
           {/* ────────────── LEFT GROUP: INSTITUTE EXPERIENCE ────────────── */}
-          <div className="w-full flex flex-col items-center lg:items-end lg:pr-10 xl:pr-14">
+          <div className="w-full flex flex-col items-center md:items-end md:pr-8 lg:pr-10 xl:pr-14">
             <div className="w-full max-w-[340px] sm:max-w-[350px] flex flex-col">
               {/* Category Underlined Header */}
               <div className="border-b border-[#5c5c5c]/30 pb-2 mb-8">
@@ -168,7 +168,7 @@ export default function Achievements() {
           </div>
 
           {/* ────────────── RIGHT GROUP: COMPETITIONS ────────────── */}
-          <div className="w-full flex flex-col items-center lg:items-start lg:pl-10 xl:pl-14">
+          <div className="w-full flex flex-col items-center md:items-start md:pl-8 lg:pl-10 xl:pl-14">
             <div className="w-full max-w-[340px] sm:max-w-[350px] flex flex-col">
               {/* Category Underlined Header */}
               <div className="border-b border-[#5c5c5c]/30 pb-2 mb-8">

@@ -47,7 +47,7 @@ const Hero = () => {
       }}
     >
       {/* ═══ MOBILE / TABLET LAYOUT (< lg) ═══ */}
-      <div className="lg:hidden flex flex-col items-center w-full h-screen-safe min-h-[540px]">
+      <div className="lg:hidden flex flex-col items-center w-full min-h-[calc(100svh-43px)] justify-between">
         {/* Text content */}
         <div className="flex flex-col items-center justify-center text-center flex-shrink-0 pt-10 sm:pt-14 pb-4">
           <div className="relative h-[3.6rem] sm:h-[4.8rem] md:h-[6.2rem] flex items-center justify-center">

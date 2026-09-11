@@ -4,6 +4,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 48px;
 }
 
 body {
@@ -15,6 +16,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Safe-area padding for notch devices (iPhone X+, etc.) */
@@ -25,11 +27,47 @@ body {
   .safe-right  { padding-right:  env(safe-area-inset-right); }
 }
 
-/* Small viewport height for mobile browsers with dynamic toolbars */
+/* Viewport height utilities for mobile browsers with dynamic toolbars */
 @supports (height: 100svh) {
   .h-screen-safe { height: 100svh; }
+  .min-h-screen-safe { min-height: 100svh; }
 }
 
 @supports not (height: 100svh) {
   .h-screen-safe { height: 100vh; }
+  .min-h-screen-safe { min-height: 100vh; }
+}
+
+/* Minimalist architectural scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c5c5c5;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
