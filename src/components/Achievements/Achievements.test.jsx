@@ -16,14 +16,14 @@ describe('Achievements', () => {
 
   it('renders institute experience category and entries', () => {
     render(<Achievements />);
-    expect(screen.getByText('INSTITUTE EXPERIENCE')).toBeInTheDocument();
+    expect(screen.getAllByText('INSTITUTE EXPERIENCE').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Expresso (Literature & Art Club)').length).toBeGreaterThan(0);
     expect(screen.getByText('Tatva 26')).toBeInTheDocument();
   });
 
   it('renders competitions category and entries', () => {
     render(<Achievements />);
-    expect(screen.getByText('COMPETITIONS')).toBeInTheDocument();
+    expect(screen.getAllByText('COMPETITIONS').length).toBeGreaterThan(0);
     expect(screen.getByText('ANDC (Annual NASA Design Competition)')).toBeInTheDocument();
     expect(screen.getByText('Reubeens Trophy')).toBeInTheDocument();
   });
@@ -50,6 +50,6 @@ describe('Achievements', () => {
     const { container } = render(<Achievements />);
     const bottomTab = container.querySelector('[data-testid="achievements-bottom-tab"]');
     expect(bottomTab).toBeInTheDocument();
-    expect(bottomTab).toHaveClass('w-full', 'bg-[#c5c5c5]');
+    expect(bottomTab).toHaveClass('w-full', 'bg-[#8e8e8e]');
   });
 });

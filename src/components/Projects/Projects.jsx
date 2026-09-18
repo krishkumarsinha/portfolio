@@ -27,10 +27,10 @@ export default function Projects() {
   return (
     <section
       id="architecture"
-      className="relative w-full bg-white select-none z-20 flex flex-col justify-between min-h-[calc(100svh-43px)] sm:min-h-[calc(100vh-43px)]"
+      className="relative w-full bg-transparent select-none z-20 flex flex-col justify-between min-h-[calc(100svh-43px)] sm:min-h-[calc(100vh-43px)]"
     >
-      {/* ════════════════ TOP HEADER BAR (#c5c5c5) ════════════════ */}
-      <div className="relative w-full bg-[#c5c5c5] h-[75px] sm:h-[95px] md:h-[110px] lg:h-[125px] flex items-end z-20">
+      {/* ════════════════ TOP HEADER BAR (#8e8e8e) ════════════════ */}
+      <div className="relative w-full bg-[#8e8e8e] h-[75px] sm:h-[95px] md:h-[110px] lg:h-[125px] flex items-end z-20">
         <div className="relative w-full h-full flex items-end z-50 pl-0 sm:pl-2 lg:pl-4">
           <div
             className="inline-block relative z-50"
@@ -40,11 +40,11 @@ export default function Projects() {
             }}
           >
             <motion.h2
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, x: -40, filter: 'blur(8px)' }}
+              whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="font-montserrat font-normal text-white text-[2.2rem] min-[360px]:text-[2.5rem] sm:text-[3.5rem] md:text-[4.6rem] lg:text-[5.8rem] leading-none tracking-tight select-none"
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="font-montserrat font-normal text-paper-match text-[#ededeb] text-[clamp(1.9rem,5.8vw,5.8rem)] leading-none tracking-tight select-none"
             >
               Architecture
             </motion.h2>
@@ -89,8 +89,11 @@ export default function Projects() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.35, delay: idx * 0.05 }}
+                whileHover={{ scale: 1.03, y: -6, boxShadow: '0 24px 48px rgba(0,0,0,0.10)' }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => setActiveProject(project)}
-                className="group cursor-pointer flex flex-col bg-[#fafafa] hover:bg-[#f4f4f4] border border-[#e5e5e5] rounded-xl overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-1"
+                className="group cursor-pointer flex flex-col bg-[#fafafa] border border-[#e5e5e5] rounded-xl overflow-hidden"
+                style={{ transition: 'box-shadow 0.3s' }}
                 data-testid="project-card"
               >
                 {/* Visual Header / Drafting pattern */}
@@ -232,7 +235,7 @@ export default function Projects() {
       </AnimatePresence>
 
       {/* ════════════════ BOTTOM TAB ════════════════ */}
-      <div className="w-full bg-[#c5c5c5] h-[15px] sm:h-[28px] lg:h-[40px] shrink-0 z-20" />
+      <div className="w-full bg-[#8e8e8e] h-[15px] sm:h-[28px] lg:h-[40px] shrink-0 z-20" />
     </section>
   );
 }

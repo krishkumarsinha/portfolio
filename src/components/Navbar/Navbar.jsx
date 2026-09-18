@@ -8,14 +8,16 @@ const NAV_LINKS = [
 ];
 
 /**
- * Navbar — exact replica of original UI, now responsive.
- * Height: 43px. Background: #bfbfbf.
+ * Navbar — Apple-inspired sticky nav with scroll-aware backdrop blur,
+ * height shrink on scroll, and smooth transitions.
+ * Height: 43px default → 38px scrolled. Background: #8e8e8e.
  * Desktop: horizontal links.
  * Mobile (< md): hamburger icon that toggles a slide-down drawer with backdrop dismiss.
  */
 const Navbar = ({ activePage = 'overview' }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
 
   // Track scroll progress
   useEffect(() => {
@@ -24,6 +26,7 @@ const Navbar = ({ activePage = 'overview' }) => {
       if (totalScroll > 0) {
         setScrollProgress(window.scrollY / totalScroll);
       }
+      setScrolled(window.scrollY > 20);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -54,20 +57,33 @@ const Navbar = ({ activePage = 'overview' }) => {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 w-full bg-[#bfbfbf] select-none">
+      <motion.nav
+        className="sticky top-0 z-50 w-full select-none"
+        animate={{
+          backgroundColor: scrolled ? 'rgba(110,110,110,0.82)' : '#8e8e8e',
+          boxShadow: scrolled ? '0 1px 0 rgba(0,0,0,0.12)' : 'none',
+        }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        style={{ backdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none', WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none' }}
+      >
         {/* Subtle scroll progress line at the very top edge */}
-        <div
-          className="absolute top-0 left-0 h-[2px] bg-[#5c5c5c] transition-all duration-75 z-50"
+        <motion.div
+          className="absolute top-0 left-0 h-[2px] bg-[#ededeb]/60 z-50"
           style={{ width: `${Math.min(Math.max(scrollProgress * 100, 0), 100)}%` }}
+          transition={{ duration: 0.075 }}
         />
 
         {/* ── Top bar ── */}
-        <div className="flex items-center justify-between h-[43px] px-4 sm:px-6">
+        <motion.div
+          className="flex items-center justify-between px-4 sm:px-6"
+          animate={{ height: scrolled ? '38px' : '43px' }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+        >
           <div className="flex items-center gap-[45px] sm:gap-[52px]">
             {/* Brand / Logo */}
             <a
               href="#"
-              className="font-montserrat font-bold text-white text-[18px] sm:text-[20px] tracking-tight leading-none focus:outline-none focus:ring-1 focus:ring-white/60 rounded px-0.5"
+              className="font-montserrat font-bold text-paper-match text-[#ededeb] text-[18px] sm:text-[20px] tracking-tight leading-none focus:outline-none focus:ring-1 focus:ring-[#ededeb]/60 rounded px-0.5"
             >
               Portfolio
             </a>
@@ -81,13 +97,13 @@ const Navbar = ({ activePage = 'overview' }) => {
                   <a
                     key={link.href}
                     href={link.href}
-                    className={`font-montserrat text-white text-[15px] transition-all relative py-1 focus:outline-none focus:ring-1 focus:ring-white/60 rounded px-1 ${
+                    className={`font-montserrat text-paper-match text-[#ededeb] text-[15px] transition-all relative py-1 focus:outline-none focus:ring-1 focus:ring-[#ededeb]/60 rounded px-1 ${
                       isActive ? 'font-semibold' : 'font-normal hover:opacity-85'
                     }`}
                   >
                     {link.label}
                     {isActive && (
-                      <span className="absolute bottom-0 left-1 right-1 h-[2px] bg-white rounded-full" />
+                      <span className="absolute bottom-0 left-1 right-1 h-[2px] bg-[#ededeb] rounded-full" />
                     )}
                   </a>
                 );
@@ -101,22 +117,22 @@ const Navbar = ({ activePage = 'overview' }) => {
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((prev) => !prev)}
-            className="md:hidden flex flex-col justify-center items-center w-[44px] h-[44px] -mr-2 gap-[5px] focus:outline-none focus:ring-1 focus:ring-white/60 rounded"
+            className="md:hidden flex flex-col justify-center items-center w-[44px] h-[44px] -mr-2 gap-[5px] focus:outline-none focus:ring-1 focus:ring-[#ededeb]/60 rounded"
           >
             <motion.span
               animate={menuOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
-              className="block w-[22px] h-[2px] bg-white rounded-full origin-center"
+              className="block w-[22px] h-[2px] bg-[#ededeb] rounded-full origin-center"
             />
             <motion.span
               animate={menuOpen ? { opacity: 0 } : { opacity: 1 }}
-              className="block w-[22px] h-[2px] bg-white rounded-full"
+              className="block w-[22px] h-[2px] bg-[#ededeb] rounded-full"
             />
             <motion.span
               animate={menuOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
-              className="block w-[22px] h-[2px] bg-white rounded-full origin-center"
+              className="block w-[22px] h-[2px] bg-[#ededeb] rounded-full origin-center"
             />
           </button>
-        </div>
+        </motion.div>
 
         {/* ── Mobile drawer (below md) ── */}
         <AnimatePresence>
@@ -126,7 +142,7 @@ const Navbar = ({ activePage = 'overview' }) => {
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.25, ease: 'easeInOut' }}
-              className="md:hidden overflow-hidden bg-[#b0b0b0] border-t border-white/10"
+              className="md:hidden overflow-hidden bg-[#8e8e8e]/95 backdrop-blur-2xl border-t border-white/15 shadow-xl"
             >
               <div className="flex flex-col py-2">
                 {NAV_LINKS.map((link) => {
@@ -137,8 +153,8 @@ const Navbar = ({ activePage = 'overview' }) => {
                       key={link.href}
                       href={link.href}
                       onClick={() => setMenuOpen(false)}
-                      className={`font-montserrat text-white text-[15px] px-6 py-3 min-h-[44px] flex items-center justify-between transition-colors ${
-                        isActive ? 'bg-[#9f9f9f] font-semibold' : 'font-normal hover:bg-[#a5a5a5] active:bg-[#999999]'
+                      className={`font-montserrat text-[#ededeb] text-[15px] px-6 py-3 min-h-[44px] flex items-center justify-between transition-colors ${
+                        isActive ? 'bg-black/10 font-semibold' : 'font-normal hover:bg-white/10 active:bg-black/15'
                       }`}
                     >
                       <span>{link.label}</span>
@@ -152,9 +168,9 @@ const Navbar = ({ activePage = 'overview' }) => {
             </motion.div>
           )}
         </AnimatePresence>
-      </nav>
+      </motion.nav>
 
-      {/* Backdrop overlay for mobile drawer */}
+      {/* Backdrop overlay for mobile drawer — aligns to dynamic navbar height */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -163,7 +179,8 @@ const Navbar = ({ activePage = 'overview' }) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={() => setMenuOpen(false)}
-            className="fixed inset-0 top-[43px] bg-black/25 backdrop-blur-[2px] z-40 md:hidden"
+            style={{ top: scrolled ? '38px' : '43px' }}
+            className="fixed inset-x-0 bottom-0 bg-black/25 backdrop-blur-[4px] z-40 md:hidden"
             aria-hidden="true"
           />
         )}

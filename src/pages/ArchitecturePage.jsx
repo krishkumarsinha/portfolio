@@ -38,10 +38,10 @@ export default function ArchitecturePage({ onBack }) {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col justify-between select-none">
+    <div className="min-h-screen bg-transparent flex flex-col justify-between select-none">
       <div>
-        {/* ════════════════ TOP HEADER BAR (#c5c5c5) ════════════════ */}
-        <div className="relative w-full bg-[#c5c5c5] h-[75px] sm:h-[95px] md:h-[110px] lg:h-[125px] flex items-end z-20">
+        {/* ════════════════ TOP HEADER BAR (#8e8e8e) ════════════════ */}
+        <div className="relative w-full bg-[#8e8e8e] h-[75px] sm:h-[95px] md:h-[110px] lg:h-[125px] flex items-end z-20">
           <div className="relative w-full h-full flex items-end justify-between z-50 pl-0 sm:pl-2 lg:pl-4 pr-4 sm:pr-8">
             <div
               className="inline-block relative z-50"
@@ -54,7 +54,7 @@ export default function ArchitecturePage({ onBack }) {
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
-                className="font-montserrat font-normal text-white text-[2.2rem] min-[360px]:text-[2.5rem] sm:text-[3.5rem] md:text-[4.6rem] lg:text-[5.8rem] leading-none tracking-tight select-none"
+                className="font-montserrat font-normal text-paper-match text-[#ededeb] text-[clamp(1.9rem,5.8vw,5.8rem)] leading-none tracking-tight select-none"
               >
                 Architecture
               </motion.h1>
@@ -259,7 +259,7 @@ export default function ArchitecturePage({ onBack }) {
       </AnimatePresence>
 
       {/* ════════════════ BOTTOM TAB ════════════════ */}
-      <div className="w-full bg-[#c5c5c5] h-[15px] sm:h-[28px] lg:h-[40px] shrink-0 z-20" />
+      <div className="w-full bg-[#8e8e8e] h-[15px] sm:h-[28px] lg:h-[40px] shrink-0 z-20" />
     </div>
   );
 }
