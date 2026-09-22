@@ -116,11 +116,11 @@ const Timeline = () => {
     <section
       id="timeline"
       ref={sectionRef}
-      className="relative w-full bg-transparent select-none z-40"
+      className="relative w-full bg-[#ededeb] paper-bg select-none z-40"
       style={{ height: '280vh' }}
     >
       {/* ── STICKY VIEWPORT CONTAINER (Pins to screen during vertical scroll scrub) ── */}
-      <div className="sticky top-0 w-full h-[100vh] flex flex-col justify-between overflow-hidden">
+      <div className="sticky top-0 w-full h-[100vh] flex flex-col justify-between overflow-hidden bg-[#ededeb] paper-bg">
         
         {/* ════════════════ TOP HEADER BAR (#8e8e8e) ════════════════ */}
         <div className="relative w-full bg-[#8e8e8e] h-[50px] sm:h-[60px] lg:h-[74px] flex items-end z-20 shrink-0">

@@ -34,9 +34,9 @@ describe('Hero', () => {
 
   it('renders the profile image', () => {
     render(<Hero />);
-    const images = screen.getAllByAltText('Krish Kumar Sinha');
+    const images = screen.getAllByAltText(/Krish Kumar Sinha/);
     expect(images.length).toBeGreaterThanOrEqual(1);
-    expect(images[0].getAttribute('src')).toMatch(/\/images\/profile\.(png|jpg)/);
+    expect(images[0].getAttribute('src')).toMatch(/\/images\/profile\.(png|jpg|webp)/);
   });
 
   it('renders the year and student text', () => {

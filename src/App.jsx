@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar/Navbar';
-import Hero from './components/Hero/Hero';
+import Hero, { LandingSection, HeroProfileSection } from './components/Hero/Hero';
 import Timeline from './components/Timeline/Timeline';
 import Proficiency from './components/Proficiency/Proficiency';
 import Achievements from './components/Achievements/Achievements';
+import ScrollStack, { ScrollStackSection } from './components/ScrollStack/ScrollStack';
 import ArchitecturePage from './pages/ArchitecturePage';
 import PhotosPage from './pages/PhotosPage';
 import DesignPage from './pages/DesignPage';
@@ -90,7 +91,7 @@ function App() {
       <div
         className="pointer-events-none fixed inset-0 z-0 opacity-15 mix-blend-multiply bg-repeat"
         style={{
-          backgroundImage: "url('/textures/paper-texture.png')",
+          backgroundImage: "url('/textures/paper-texture.webp')",
           backgroundSize: '288px 512px',
         }}
         aria-hidden="true"
@@ -160,122 +161,144 @@ function App() {
             exit="exit"
             className="flex-grow flex flex-col"
           >
-            <Hero />
-            <Timeline />
-            <Proficiency />
-            <Achievements />
+            <main>
+              {/* ═══════ Scroll-Stack Sections ═══════ */}
+              <ScrollStack>
+                <ScrollStackSection index={0}>
+                  <LandingSection />
+                </ScrollStackSection>
+                <ScrollStackSection index={1}>
+                  <HeroProfileSection />
+                </ScrollStackSection>
+                <ScrollStackSection index={2}>
+                  <Timeline />
+                </ScrollStackSection>
+                <ScrollStackSection index={3}>
+                  <Proficiency />
+                </ScrollStackSection>
+                <ScrollStackSection index={4}>
+                  <Achievements />
+                </ScrollStackSection>
+              </ScrollStack>
 
-            {/* ════════════════ DEDICATED PAGES SHOWCASE DIRECTORY ════════════════ */}
-            <section
-              id="showcase-portals"
-              className="relative w-full bg-transparent select-none z-20 py-12 sm:py-16 md:py-20 px-4 sm:px-8 md:px-12 lg:px-16"
-            >
-              <div className="max-w-[1240px] mx-auto">
-                <motion.div
-                  className="text-center max-w-2xl mx-auto mb-10 sm:mb-12"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <h3 className="font-montserrat font-bold text-[20px] sm:text-[24px] md:text-[28px] text-[#3a3a3a] mb-2 tracking-tight">
-                    Explore Portfolios
-                  </h3>
-                  <p className="font-montserrat text-[13.5px] sm:text-[15px] text-[#666]">
-                    Dedicated collections spanning architectural proposals, photographic studies, and editorial design.
-                  </p>
-                </motion.div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-                  {/* Architecture Portal Card */}
-                  <motion.a
-                    href="#architecture"
-                    className="group relative overflow-hidden flex flex-col justify-between bg-gradient-to-b from-[#ffffff] to-[#f8f8f8] hover:to-[#f0f0f0] border border-black/[0.08] hover:border-black/[0.18] rounded-2xl p-6 sm:p-7"
-                    whileHover={{ scale: 1.03, rotateY: -2, rotateX: 1, boxShadow: '0 24px 48px rgba(0,0,0,0.12)', y: -5 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-                    style={{ transformStyle: 'preserve-3d', transformOrigin: 'center center' }}
+              {/* ════════════════ DEDICATED PAGES SHOWCASE DIRECTORY ════════════════ */}
+              <section
+                id="showcase-portals"
+                className="relative w-full bg-[#ededeb] paper-bg select-none z-50 rounded-t-[24px] shadow-[0_-15px_40px_-10px_rgba(0,0,0,0.30),0_-4px_12px_rgba(0,0,0,0.12)]"
+                style={{
+                  paddingTop: 'var(--space-xl)',
+                  paddingBottom: 'var(--space-xl)',
+                  paddingLeft: 'var(--space-sm)',
+                  paddingRight: 'var(--space-sm)',
+                }}
+              >
+                <div className="max-w-[1240px] mx-auto">
+                  <motion.div
+                    className="text-center max-w-2xl mx-auto mb-phi-lg"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    {/* Apple specular light reflection */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    <h2 className="font-montserrat font-bold text-phi-h3 text-[#3a3a3a] mb-2 tracking-tight">
+                      Explore Portfolios
+                    </h2>
+                    <p className="font-montserrat text-phi-sm text-[#666]">
+                      Dedicated collections spanning architectural proposals, photographic studies, and editorial design.
+                    </p>
+                  </motion.div>
 
-                    <div className="relative z-10">
-                      <span className="font-montserrat text-[10.5px] font-bold uppercase tracking-widest text-[#666] bg-black/[0.05] border border-black/[0.04] px-2.5 py-1 rounded-full">
-                        6 Projects
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-phi-md">
+                    {/* Architecture Portal Card */}
+                    <motion.a
+                      href="#architecture"
+                      className="group relative overflow-hidden flex flex-col justify-between bg-gradient-to-b from-[#ffffff] to-[#f8f8f8] hover:to-[#f0f0f0] border border-black/[0.08] hover:border-black/[0.18] rounded-2xl p-phi-md focus-visible:ring-2 focus-visible:ring-[#3a3a3a] focus-visible:ring-offset-2"
+                      whileHover={{ scale: 1.03, rotateY: -2, rotateX: 1, boxShadow: '0 24px 48px rgba(0,0,0,0.12)', y: -5 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: 'spring', stiffness: 320, damping: 22 }}
+                      style={{ transformStyle: 'preserve-3d', transformOrigin: 'center center' }}
+                    >
+                      {/* Apple specular light reflection */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                      <div className="relative z-10">
+                        <span className="font-montserrat text-phi-xs font-bold uppercase tracking-widest text-[#666] bg-black/[0.05] border border-black/[0.04] px-2.5 py-1 rounded-full">
+                          6 Projects
+                        </span>
+                        <h3 className="font-montserrat font-bold text-phi-h4 text-[#3a3a3a] group-hover:text-black mt-phi-sm mb-2 transition-colors">
+                          Architecture
+                        </h3>
+                        <p className="font-montserrat text-phi-sm text-[#666] leading-relaxed mb-phi-md">
+                          Biophilic tech hubs, terraced vernacular residences, monsoon infrastructure, and adaptive reuse.
+                        </p>
+                      </div>
+                      <span className="relative z-10 font-montserrat text-phi-sm font-semibold text-[#3a3a3a] group-hover:text-black flex items-center gap-1.5 transition-colors">
+                        <span>View Projects</span>
+                        <motion.span animate={{ x: 0 }} whileHover={{ x: 4 }} className="inline-block">→</motion.span>
                       </span>
-                      <h4 className="font-montserrat font-bold text-[18px] sm:text-[20px] text-[#3a3a3a] group-hover:text-black mt-4 mb-2 transition-colors">
-                        Architecture
-                      </h4>
-                      <p className="font-montserrat text-[13px] text-[#666] leading-relaxed mb-6">
-                        Biophilic tech hubs, terraced vernacular residences, monsoon infrastructure, and adaptive reuse.
-                      </p>
-                    </div>
-                    <span className="relative z-10 font-montserrat text-[13px] font-semibold text-[#3a3a3a] group-hover:text-black flex items-center gap-1.5 transition-colors">
-                      <span>View Projects</span>
-                      <motion.span animate={{ x: 0 }} whileHover={{ x: 4 }} className="inline-block">→</motion.span>
-                    </span>
-                  </motion.a>
+                    </motion.a>
 
-                  {/* Photos Portal Card */}
-                  <motion.a
-                    href="#photos"
-                    className="group relative overflow-hidden flex flex-col justify-between bg-gradient-to-b from-[#ffffff] to-[#f8f8f8] hover:to-[#f0f0f0] border border-black/[0.08] hover:border-black/[0.18] rounded-2xl p-6 sm:p-7"
-                    whileHover={{ scale: 1.03, rotateY: 0, rotateX: 1, boxShadow: '0 24px 48px rgba(0,0,0,0.12)', y: -5 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-                    style={{ transformStyle: 'preserve-3d', transformOrigin: 'center center' }}
-                  >
-                    {/* Apple specular light reflection */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    {/* Photos Portal Card */}
+                    <motion.a
+                      href="#photos"
+                      className="group relative overflow-hidden flex flex-col justify-between bg-gradient-to-b from-[#ffffff] to-[#f8f8f8] hover:to-[#f0f0f0] border border-black/[0.08] hover:border-black/[0.18] rounded-2xl p-phi-md focus-visible:ring-2 focus-visible:ring-[#3a3a3a] focus-visible:ring-offset-2"
+                      whileHover={{ scale: 1.03, rotateY: 0, rotateX: 1, boxShadow: '0 24px 48px rgba(0,0,0,0.12)', y: -5 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: 'spring', stiffness: 320, damping: 22 }}
+                      style={{ transformStyle: 'preserve-3d', transformOrigin: 'center center' }}
+                    >
+                      {/* Apple specular light reflection */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                    <div className="relative z-10">
-                      <span className="font-montserrat text-[10.5px] font-bold uppercase tracking-widest text-[#666] bg-black/[0.05] border border-black/[0.04] px-2.5 py-1 rounded-full">
-                        8 Studies
+                      <div className="relative z-10">
+                        <span className="font-montserrat text-phi-xs font-bold uppercase tracking-widest text-[#666] bg-black/[0.05] border border-black/[0.04] px-2.5 py-1 rounded-full">
+                          8 Studies
+                        </span>
+                        <h3 className="font-montserrat font-bold text-phi-h4 text-[#3a3a3a] group-hover:text-black mt-phi-sm mb-2 transition-colors">
+                          Photos
+                        </h3>
+                        <p className="font-montserrat text-phi-sm text-[#666] leading-relaxed mb-phi-md">
+                          Architectural form studies, chiaroscuro concrete, urban monoliths, and material textures.
+                        </p>
+                      </div>
+                      <span className="relative z-10 font-montserrat text-phi-sm font-semibold text-[#3a3a3a] group-hover:text-black flex items-center gap-1.5 transition-colors">
+                        <span>View Gallery</span>
+                        <motion.span animate={{ x: 0 }} whileHover={{ x: 4 }} className="inline-block">→</motion.span>
                       </span>
-                      <h4 className="font-montserrat font-bold text-[18px] sm:text-[20px] text-[#3a3a3a] group-hover:text-black mt-4 mb-2 transition-colors">
-                        Photos
-                      </h4>
-                      <p className="font-montserrat text-[13px] text-[#666] leading-relaxed mb-6">
-                        Architectural form studies, chiaroscuro concrete, urban monoliths, and material textures.
-                      </p>
-                    </div>
-                    <span className="relative z-10 font-montserrat text-[13px] font-semibold text-[#3a3a3a] group-hover:text-black flex items-center gap-1.5 transition-colors">
-                      <span>View Gallery</span>
-                      <motion.span animate={{ x: 0 }} whileHover={{ x: 4 }} className="inline-block">→</motion.span>
-                    </span>
-                  </motion.a>
+                    </motion.a>
 
-                  {/* Design Portal Card */}
-                  <motion.a
-                    href="#design"
-                    className="group relative overflow-hidden flex flex-col justify-between bg-gradient-to-b from-[#ffffff] to-[#f8f8f8] hover:to-[#f0f0f0] border border-black/[0.08] hover:border-black/[0.18] rounded-2xl p-6 sm:p-7"
-                    whileHover={{ scale: 1.03, rotateY: 2, rotateX: 1, boxShadow: '0 24px 48px rgba(0,0,0,0.12)', y: -5 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-                    style={{ transformStyle: 'preserve-3d', transformOrigin: 'center center' }}
-                  >
-                    {/* Apple specular light reflection */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    {/* Design Portal Card */}
+                    <motion.a
+                      href="#design"
+                      className="group relative overflow-hidden flex flex-col justify-between bg-gradient-to-b from-[#ffffff] to-[#f8f8f8] hover:to-[#f0f0f0] border border-black/[0.08] hover:border-black/[0.18] rounded-2xl p-phi-md focus-visible:ring-2 focus-visible:ring-[#3a3a3a] focus-visible:ring-offset-2"
+                      whileHover={{ scale: 1.03, rotateY: 2, rotateX: 1, boxShadow: '0 24px 48px rgba(0,0,0,0.12)', y: -5 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: 'spring', stiffness: 320, damping: 22 }}
+                      style={{ transformStyle: 'preserve-3d', transformOrigin: 'center center' }}
+                    >
+                      {/* Apple specular light reflection */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                    <div className="relative z-10">
-                      <span className="font-montserrat text-[10.5px] font-bold uppercase tracking-widest text-[#666] bg-black/[0.05] border border-black/[0.04] px-2.5 py-1 rounded-full">
-                        6 Works
+                      <div className="relative z-10">
+                        <span className="font-montserrat text-phi-xs font-bold uppercase tracking-widest text-[#666] bg-black/[0.05] border border-black/[0.04] px-2.5 py-1 rounded-full">
+                          6 Works
+                        </span>
+                        <h3 className="font-montserrat font-bold text-phi-h4 text-[#3a3a3a] group-hover:text-black mt-phi-sm mb-2 transition-colors">
+                          Design
+                        </h3>
+                        <p className="font-montserrat text-phi-sm text-[#666] leading-relaxed mb-phi-md">
+                          Editorial publication spreads, NASA competition compendiums, fest identities, and screen prints.
+                        </p>
+                      </div>
+                      <span className="relative z-10 font-montserrat text-phi-sm font-semibold text-[#3a3a3a] group-hover:text-black flex items-center gap-1.5 transition-colors">
+                        <span>View Design</span>
+                        <motion.span animate={{ x: 0 }} whileHover={{ x: 4 }} className="inline-block">→</motion.span>
                       </span>
-                      <h4 className="font-montserrat font-bold text-[18px] sm:text-[20px] text-[#3a3a3a] group-hover:text-black mt-4 mb-2 transition-colors">
-                        Design
-                      </h4>
-                      <p className="font-montserrat text-[13px] text-[#666] leading-relaxed mb-6">
-                        Editorial publication spreads, NASA competition compendiums, fest identities, and screen prints.
-                      </p>
-                    </div>
-                    <span className="relative z-10 font-montserrat text-[13px] font-semibold text-[#3a3a3a] group-hover:text-black flex items-center gap-1.5 transition-colors">
-                      <span>View Design</span>
-                      <motion.span animate={{ x: 0 }} whileHover={{ x: 4 }} className="inline-block">→</motion.span>
-                    </span>
-                  </motion.a>
+                    </motion.a>
+                  </div>
                 </div>
-              </div>
-            </section>
+              </section>
+            </main>
           </motion.div>
         )}
       </AnimatePresence>

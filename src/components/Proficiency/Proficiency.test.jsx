@@ -8,29 +8,31 @@ describe('Proficiency', () => {
     expect(screen.getByText('Proficiency')).toBeInTheDocument();
   });
 
-  it('renders all skill categories across two columns', () => {
+  it('renders all skill category titles', () => {
     render(<Proficiency />);
-    expect(screen.getByText('DRAFTING')).toBeInTheDocument();
-    expect(screen.getByText('3D MODELLING')).toBeInTheDocument();
-    expect(screen.getByText('3D RENDERING')).toBeInTheDocument();
-    expect(screen.getByText('LANGUAGES')).toBeInTheDocument();
-    expect(screen.getByText('SOFT SKILLS')).toBeInTheDocument();
-    expect(screen.getByText('DOCUMENTATION')).toBeInTheDocument();
-    expect(screen.getByText('GRAPHICS')).toBeInTheDocument();
-    expect(screen.getByText('OTHERS')).toBeInTheDocument();
+    // Category titles are rendered in the mobile grid as h3 elements
+    expect(screen.getAllByText('Drafting').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('3d Modelling').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('3d Rendering').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Languages').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Soft Skills').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Documentation').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Graphics').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Others').length).toBeGreaterThanOrEqual(1);
   });
 
-  it('renders specific skills', () => {
+  it('renders specific skills within category descriptions', () => {
     render(<Proficiency />);
-    expect(screen.getByText('AUTO CAD')).toBeInTheDocument();
-    expect(screen.getByText('SKETCHUP')).toBeInTheDocument();
-    expect(screen.getByText('D5 RENDER')).toBeInTheDocument();
-    expect(screen.getByText('ENGLISH')).toBeInTheDocument();
-    expect(screen.getByText('ANGIKA')).toBeInTheDocument();
-    expect(screen.getByText('COMMUNICATION')).toBeInTheDocument();
-    expect(screen.getByText('PHOTOGRAMMETRY')).toBeInTheDocument();
-    expect(screen.getByText('PHOTOSHOP')).toBeInTheDocument();
-    expect(screen.getByText('FIGMA')).toBeInTheDocument();
+    // Skills are rendered as joined strings in the mobile grid and active desktop panel
+    expect(screen.getAllByText(/AUTO CAD/).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/SKETCHUP/).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/D5 RENDER/).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/ENGLISH/).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/ANGIKA/).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/COMMUNICATION/).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/PHOTOGRAMMETRY/).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/PHOTOSHOP/).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/FIGMA/).length).toBeGreaterThanOrEqual(1);
   });
 
   it('renders the section with id="proficiency"', () => {
@@ -39,20 +41,17 @@ describe('Proficiency', () => {
     expect(section).toBeInTheDocument();
   });
 
-  it('renders all 8 groups in 4 row-by-row aligned pairs', () => {
+  it('renders all 8 skill categories as cards in the mobile grid', () => {
     const { container } = render(<Proficiency />);
-    const rows = container.querySelectorAll('.grid.grid-cols-1.md\\:grid-cols-2');
-    expect(rows.length).toBe(4); // 4 pairs of rows
-    expect(screen.getByText('LANGUAGES')).toBeInTheDocument();
-    expect(screen.getByText('SOFT SKILLS')).toBeInTheDocument();
+    // The mobile grid renders 8 category cards as h3 headings
+    const categoryCards = container.querySelectorAll('h3');
+    expect(categoryCards.length).toBeGreaterThanOrEqual(8);
   });
 
-  it('renders languages in the requested order: ANGIKA, ENGLISH, HINDI', () => {
+  it('renders languages skills including ANGIKA, ENGLISH, HINDI', () => {
     render(<Proficiency />);
-    const angika = screen.getByText('ANGIKA');
-    const english = screen.getByText('ENGLISH');
-    const hindi = screen.getByText('HINDI');
-    expect(angika.compareDocumentPosition(english) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(english.compareDocumentPosition(hindi) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    // Languages are rendered as a joined string in the mobile card
+    const languageTexts = screen.getAllByText(/ANGIKA.*ENGLISH.*HINDI/);
+    expect(languageTexts.length).toBeGreaterThanOrEqual(1);
   });
 });

@@ -3,6 +3,50 @@
  * with authentic native language script, Romanized pronunciation, and script font families.
  */
 
+/**
+ * Lazy font loading via FontFace API.
+ * Non-Latin Noto fonts are loaded on-demand when the greeting rotation
+ * first needs them, instead of blocking initial page load (~400KB+ saved).
+ */
+const NOTO_FONT_URLS = {
+  devanagari: 'Noto+Sans+Devanagari',
+  chinese: 'Noto+Sans+SC',
+  japanese: 'Noto+Sans+JP',
+  korean: 'Noto+Sans+KR',
+  arabic: 'Noto+Sans+Arabic',
+  bengali: 'Noto+Sans+Bengali',
+  thai: 'Noto+Sans+Thai',
+  tamil: 'Noto+Sans+Tamil',
+  telugu: 'Noto+Sans+Telugu',
+  kannada: 'Noto+Sans+Kannada',
+  gujarati: 'Noto+Sans+Gujarati',
+  malayalam: 'Noto+Sans+Malayalam',
+  gurmukhi: 'Noto+Sans+Gurmukhi',
+  odia: 'Noto+Sans+Oriya',
+  burmese: 'Noto+Sans+Myanmar',
+  ethiopic: 'Noto+Sans+Ethiopic',
+};
+
+const loadedFonts = new Set();
+
+export function preloadScriptFont(script) {
+  if (script === 'latin' || script === 'cyrillic' || script === 'greek') return;
+  if (loadedFonts.has(script)) return;
+
+  const fontName = NOTO_FONT_URLS[script];
+  if (!fontName) return;
+
+  loadedFonts.add(script);
+
+  // Inject a <link> for the Google Font asynchronously
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = `https://fonts.googleapis.com/css2?family=${fontName}:wght@400;600;700&display=swap`;
+  link.media = 'print'; // Load without blocking
+  link.onload = () => { link.media = 'all'; };
+  document.head.appendChild(link);
+}
+
 export const SCRIPT_FONTS = {
   latin: "'Montserrat', sans-serif",
   devanagari: "'Noto Sans Devanagari', 'Mangal', 'Nirmala UI', sans-serif",
@@ -23,6 +67,7 @@ export const SCRIPT_FONTS = {
   ethiopic: "'Noto Sans Ethiopic', 'Nyala', sans-serif",
   cyrillic: "'Montserrat', 'Noto Sans', sans-serif",
   greek: "'Montserrat', 'Noto Sans', sans-serif",
+
 };
 
 export const GREETINGS = [
