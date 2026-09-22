@@ -7,9 +7,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          // Split animation libraries into separate chunks
           'framer-motion': ['framer-motion'],
-          'gsap': ['gsap', 'gsap/ScrollTrigger'],
         },
       },
     },

@@ -1,180 +1,135 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 /**
- * ScrollStack — GSAP ScrollTrigger-powered "stacking pages" animation.
+ * ScrollStack — Decoupled Scroll-Stack Architecture.
  *
- * Each child section pins at the top of the viewport via position:sticky.
- * As the user scrolls, the next section slides up and stacks over the previous one.
- * The covered section undergoes:
- *   - scale3d() recession (1.0 → 0.92)
- *   - Dark overlay dimming (0 → 0.4 opacity via ::after pseudo)
- *   - Border-radius evolution (0 → 16px)
+ * Layer 1: Background texture lives continuously on <body> (no seams).
+ * Layer 2: Content sections pin via native position:sticky and cross-fade via Framer Motion.
  *
- * Only transform and opacity are animated (GPU-composited).
- * Respects prefers-reduced-motion: sections flow normally without pinning.
+ * Exports:
+ * - default ScrollStack: Outer container for stacked sections.
+ * - StackLayer: Z-index & overlap wrapper for self-pinning sections (Timeline, Achievements).
+ * - ScrollStackSection: Sticky pinning + fade wrapper for static/non-scroll-driven sections.
  */
 
-// Lazy-load GSAP + ScrollTrigger to avoid impacting initial bundle
-let gsapLoaded = false;
-let gsapModule = null;
+/**
+ * StackLayer — Manages z-order and upward overlap for sections that
+ * drive their own internal sticky pinning and scrubbed animations
+ * (e.g. Timeline & Achievements, each requiring ~280vh of scroll room).
+ */
+export function StackLayer({
+  children,
+  index = 0,
+  total = 5,
+  overlap,
+  className = '',
+}) {
+  const zIndex = (total - index) * 10;
+  const marginTop = overlap
+    ? overlap.startsWith('-')
+      ? overlap
+      : `-${overlap}`
+    : undefined;
 
-async function loadGSAP() {
-  if (gsapLoaded) return gsapModule;
-  const [{ gsap }, { ScrollTrigger }] = await Promise.all([
-    import('gsap'),
-    import('gsap/ScrollTrigger'),
-  ]);
-  gsap.registerPlugin(ScrollTrigger);
-  gsapModule = { gsap, ScrollTrigger };
-  gsapLoaded = true;
-  return gsapModule;
+  return (
+    <div
+      className={`relative w-full ${className}`}
+      style={{ zIndex, marginTop }}
+      data-stack-index={index}
+    >
+      {children}
+    </div>
+  );
 }
 
 /**
- * ScrollStackSection — wraps each section with the stack-panel structure.
- * The z-index ascends so each subsequent section layers over the previous.
+ * ScrollStackSection — Pinned viewport section with scrubbed Framer Motion dissolve.
+ * Pinned at top of viewport for `height`, then fades out during its final 25-30%
+ * of scroll room to reveal the next section resting beneath it.
  */
-export function ScrollStackSection({ children, index = 0, className = '' }) {
+export function ScrollStackSection({
+  children,
+  index = 0,
+  total = 5,
+  height = '140dvh',
+  selfFade = false,
+  overlap,
+  className = '',
+}) {
+  const containerRef = useRef(null);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      setPrefersReducedMotion(mq.matches);
+      const handler = (e) => setPrefersReducedMotion(e.matches);
+      mq.addEventListener('change', handler);
+      return () => mq.removeEventListener('change', handler);
+    }
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
+  // Fade out during final 25-30% of scroll room
+  // If selfFade is true (e.g. Landing), internal components animate their exit first;
+  // then the layer dissolves in the final 20% to reveal the layer underneath.
+  const fadeStart = selfFade ? 0.78 : 0.68;
+  const fadeEnd = 0.96;
+
+  const opacity = useTransform(scrollYProgress, [0, fadeStart, fadeEnd], [1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [fadeStart, fadeEnd], [1, 0.98]);
+
+  const zIndex = (total - index) * 10;
+  const marginTop = overlap
+    ? overlap.startsWith('-')
+      ? overlap
+      : `-${overlap}`
+    : undefined;
+
+  if (prefersReducedMotion) {
+    return (
+      <div
+        className={`relative w-full ${className}`}
+        style={{ zIndex, marginTop }}
+        data-stack-index={index}
+      >
+        <div className="w-full min-h-[100dvh]">
+          {children}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
-      className={`stack-panel bg-[#ededeb] ${className}`}
-      style={{ zIndex: (index + 1) * 10 }}
+      ref={containerRef}
+      className={`relative w-full ${className}`}
+      style={{ height, zIndex, marginTop }}
       data-stack-index={index}
     >
-      <div className="stack-panel-inner bg-[#ededeb] paper-bg">
-        {children}
+      <div className="sticky top-0 w-full h-[100dvh] overflow-hidden">
+        <motion.div
+          style={{ opacity, scale }}
+          className="w-full h-full"
+        >
+          {children}
+        </motion.div>
       </div>
     </div>
   );
 }
 
 /**
- * ScrollStack — wrapper that initializes GSAP ScrollTrigger animations
- * on mount. Each .stack-panel gets a scrubbed timeline that scales down
- * and dims its .stack-panel-inner as the next section scrolls over it.
+ * ScrollStack — Root wrapper component for the stacked layers.
  */
-export default function ScrollStack({ children }) {
-  const wrapperRef = useRef(null);
-  const triggersRef = useRef([]);
-
-  const prefersReducedMotion = useCallback(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) return false;
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  }, []);
-
-  useEffect(() => {
-    if (prefersReducedMotion()) return;
-
-    let cleanup = null;
-
-    loadGSAP().then(({ gsap, ScrollTrigger }) => {
-      const wrapper = wrapperRef.current;
-      if (!wrapper) return;
-
-      const panels = wrapper.querySelectorAll('.stack-panel');
-      const inners = wrapper.querySelectorAll('.stack-panel-inner');
-
-      // Clean up any existing triggers
-      triggersRef.current.forEach(t => t.kill());
-      triggersRef.current = [];
-
-      panels.forEach((panel, i) => {
-        // Skip the last panel (nothing covers it)
-        if (i >= panels.length - 1) return;
-
-        const inner = inners[i];
-        const overlay = inner.querySelector('::after') || inner; // CSS pseudo handles overlay
-        const nextPanel = panels[i + 1];
-
-        // Create a scrubbed timeline for each panel's recession
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: nextPanel,
-            start: 'top bottom',
-            end: 'top top',
-            scrub: 0.6, // slight smoothing for buttery feel
-            // No pin here — panels pin themselves via CSS position:sticky
-          },
-        });
-
-        // Scale down the covered section
-        tl.to(inner, {
-          scale: 0.92,
-          borderRadius: '16px',
-          ease: 'none',
-          duration: 1,
-        }, 0);
-
-        // Dim via the ::after overlay opacity
-        // Since we can't directly target ::after with GSAP,
-        // we use a CSS custom property approach
-        tl.to(inner, {
-          '--overlay-opacity': 0.4,
-          ease: 'none',
-          duration: 1,
-        }, 0);
-
-        triggersRef.current.push(tl.scrollTrigger);
-
-        // Multi-card depth: if there's a panel before this one,
-        // add secondary recession when panel i+1 covers panel i
-        if (i > 0) {
-          const prevInner = inners[i - 1];
-          const secondaryTl = gsap.timeline({
-            scrollTrigger: {
-              trigger: nextPanel,
-              start: 'top bottom',
-              end: 'top top',
-              scrub: 0.6,
-            },
-          });
-
-          secondaryTl.to(prevInner, {
-            scale: 0.86,
-            '--overlay-opacity': 0.55,
-            ease: 'none',
-            duration: 1,
-          }, 0);
-
-          triggersRef.current.push(secondaryTl.scrollTrigger);
-        }
-      });
-
-      cleanup = () => {
-        triggersRef.current.forEach(t => t.kill());
-        triggersRef.current = [];
-      };
-    });
-
-    return () => {
-      if (cleanup) cleanup();
-    };
-  }, [prefersReducedMotion]);
-
-  // Listen for reduced motion changes
-  useEffect(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) return;
-    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const handler = () => {
-      // Kill all triggers when user enables reduced motion
-      if (mql.matches) {
-        triggersRef.current.forEach(t => t.kill());
-        triggersRef.current = [];
-        // Reset transforms
-        const inners = wrapperRef.current?.querySelectorAll('.stack-panel-inner');
-        inners?.forEach(inner => {
-          inner.style.transform = '';
-          inner.style.borderRadius = '';
-          inner.style.setProperty('--overlay-opacity', '0');
-        });
-      }
-    };
-    mql.addEventListener('change', handler);
-    return () => mql.removeEventListener('change', handler);
-  }, []);
-
+export default function ScrollStack({ children, className = '' }) {
   return (
-    <div ref={wrapperRef} className="stack-wrapper">
+    <div className={`relative w-full ${className}`}>
       {children}
     </div>
   );

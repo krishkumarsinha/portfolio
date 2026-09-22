@@ -39,7 +39,7 @@ const Timeline = () => {
   const x = useTransform(smoothProgress, [0, 1], [0, -scrollDistance]);
 
   // Apple section dissolve transition into Proficiency
-  const trackOpacity = useTransform(smoothProgress, [0, 0.04, 0.88, 1], [0.85, 1, 1, 0.45]);
+  const trackOpacity = useTransform(smoothProgress, [0, 0.04, 0.88, 1], [0.85, 1, 1, 0]);
   const trackScale = useTransform(smoothProgress, [0, 0.04, 0.88, 1], [0.985, 1, 1, 0.96]);
   const trackBlurVal = useTransform(smoothProgress, [0.88, 1], [0, 4]);
   const trackBlur = useTransform(trackBlurVal, (v) => `blur(${v}px)`);

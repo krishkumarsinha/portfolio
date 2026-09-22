@@ -5,7 +5,7 @@ import Hero, { LandingSection, HeroProfileSection } from './components/Hero/Hero
 import Timeline from './components/Timeline/Timeline';
 import Proficiency from './components/Proficiency/Proficiency';
 import Achievements from './components/Achievements/Achievements';
-import ScrollStack, { ScrollStackSection } from './components/ScrollStack/ScrollStack';
+import ScrollStack, { ScrollStackSection, StackLayer } from './components/ScrollStack/ScrollStack';
 import ArchitecturePage from './pages/ArchitecturePage';
 import PhotosPage from './pages/PhotosPage';
 import DesignPage from './pages/DesignPage';
@@ -164,21 +164,25 @@ function App() {
             <main>
               {/* ═══════ Scroll-Stack Sections ═══════ */}
               <ScrollStack>
-                <ScrollStackSection index={0}>
+                <ScrollStackSection index={0} total={5} height="140dvh" selfFade>
                   <LandingSection />
                 </ScrollStackSection>
-                <ScrollStackSection index={1}>
+                <ScrollStackSection index={1} total={5} height="180dvh" overlap="35vh">
                   <HeroProfileSection />
                 </ScrollStackSection>
-                <ScrollStackSection index={2}>
+
+                {/* Timeline drives its own 280vh pin + fade — don't re-wrap it */}
+                <StackLayer index={2} total={5} overlap="35vh">
                   <Timeline />
-                </ScrollStackSection>
-                <ScrollStackSection index={3}>
+                </StackLayer>
+
+                <ScrollStackSection index={3} total={5} height="180dvh" overlap="35vh">
                   <Proficiency />
                 </ScrollStackSection>
-                <ScrollStackSection index={4}>
+
+                <StackLayer index={4} total={5} overlap="35vh">
                   <Achievements />
-                </ScrollStackSection>
+                </StackLayer>
               </ScrollStack>
 
               {/* ════════════════ DEDICATED PAGES SHOWCASE DIRECTORY ════════════════ */}
@@ -186,6 +190,7 @@ function App() {
                 id="showcase-portals"
                 className="relative w-full bg-[#ededeb] paper-bg select-none z-50 rounded-t-[24px] shadow-[0_-15px_40px_-10px_rgba(0,0,0,0.30),0_-4px_12px_rgba(0,0,0,0.12)]"
                 style={{
+                  marginTop: '-35vh',
                   paddingTop: 'var(--space-xl)',
                   paddingBottom: 'var(--space-xl)',
                   paddingLeft: 'var(--space-sm)',
