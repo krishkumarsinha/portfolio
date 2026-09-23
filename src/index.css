@@ -62,7 +62,7 @@ body {
 
 /* Architectural Paper Texture Background */
 .paper-bg {
-  background-color: #ededeb;
+  background: transparent;
 }
 
 /* Cutout text matching the exact paper background texture */

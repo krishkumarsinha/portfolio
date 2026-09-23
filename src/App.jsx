@@ -86,7 +86,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen paper-bg relative flex flex-col justify-between">
+    <div className="min-h-screen relative flex flex-col justify-between">
       {/* ── Fixed Paper Texture Ambient Grain Overlay ── */}
       <div
         className="pointer-events-none fixed inset-0 z-0 opacity-15 mix-blend-multiply bg-repeat"
@@ -167,7 +167,8 @@ function App() {
                 <ScrollStackSection index={0} total={5} height="140dvh" selfFade>
                   <LandingSection />
                 </ScrollStackSection>
-                <ScrollStackSection index={1} total={5} height="180dvh" overlap="35vh">
+
+                <ScrollStackSection index={1} total={5} height="180dvh" selfFade overlap="35vh">
                   <HeroProfileSection />
                 </ScrollStackSection>
 
@@ -176,9 +177,10 @@ function App() {
                   <Timeline />
                 </StackLayer>
 
-                <ScrollStackSection index={3} total={5} height="180dvh" overlap="35vh">
+                {/* Proficiency drives its own 280vh pin + scroll-scrub — don't re-wrap in ScrollStackSection */}
+                <StackLayer index={3} total={5} overlap="35vh">
                   <Proficiency />
-                </ScrollStackSection>
+                </StackLayer>
 
                 <StackLayer index={4} total={5} overlap="35vh">
                   <Achievements />

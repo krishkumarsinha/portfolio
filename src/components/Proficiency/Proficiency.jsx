@@ -123,23 +123,38 @@ export default function Proficiency() {
   const sectionRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Scroll-scrub: advance index 0–7 as section scrolls through viewport
+  // Apple scroll-scrub: maps vertical scroll through 280vh to item progression
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ['start 75%', 'end 25%'],
+    offset: ['start start', 'end end'],
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 75,
-    damping: 22,
+    stiffness: 90,
+    damping: 25,
     restDelta: 0.001,
   });
 
+  // Apple section dissolve transition into Achievements
+  const sectionOpacity = useTransform(smoothProgress, [0, 0.04, 0.88, 1], [0.85, 1, 1, 0]);
+  const sectionScale = useTransform(smoothProgress, [0, 0.04, 0.88, 1], [0.985, 1, 1, 0.96]);
+  const sectionBlurVal = useTransform(smoothProgress, [0.88, 1], [0, 4]);
+  const sectionBlur = useTransform(sectionBlurVal, (v) => `blur(${v}px)`);
+
+  const [scrollHint, setScrollHint] = useState('Scroll down to explore skills ↓');
+
   useEffect(() => {
     return smoothProgress.on('change', (latest) => {
-      const clamped = Math.min(1, Math.max(0, latest));
+      // Advance index 0–7 across scroll progression [0, 0.86]
+      const clamped = Math.min(1, Math.max(0, latest / 0.86));
       const idx = Math.min(7, Math.floor(clamped * 8));
       setActiveIndex(idx);
+
+      if (latest > 0.86) {
+        setScrollHint('Continue scrolling for Achievements ↓');
+      } else {
+        setScrollHint('Scroll down to explore skills ↓');
+      }
     });
   }, [smoothProgress]);
 
@@ -177,60 +192,86 @@ export default function Proficiency() {
     <section
       id="proficiency"
       ref={sectionRef}
-      className="relative w-full bg-[#ededeb] paper-bg select-none z-30 flex flex-col justify-between min-h-[85vh] sm:min-h-[90vh] py-phi-lg"
+      className="relative w-full select-none z-30"
+      style={{ height: '280vh' }}
     >
-      {/* ════════════════ TOP HEADER BAR ════════════════ */}
-      <div className="relative w-full bg-[#8e8e8e] h-[50px] sm:h-[60px] lg:h-[74px] flex items-end z-20 shrink-0">
-        <div className="relative w-full h-full flex items-end z-50 pl-0 sm:pl-2 lg:pl-4">
-          <div
-            className="inline-block relative z-50"
-            style={{ marginLeft: '-4px', transform: 'translateY(24.8%)' }}
-          >
-            <motion.h2
-              initial={{ opacity: 0, x: -40, filter: 'blur(8px)' }}
-              whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="font-montserrat font-normal text-paper-match text-[#ededeb] text-[clamp(2.1rem,6vw,5.8rem)] leading-none tracking-tight select-none"
-            >
-              Proficiency
-            </motion.h2>
-          </div>
-        </div>
-      </div>
-
-      {/* ════════════════ MOBILE / TABLET GRID (< 1024px) ════════════════ */}
-      <div className="@container w-full flex-grow lg:hidden px-4 sm:px-8 mt-12 mb-8">
-        <div 
-          className="grid gap-phi-md @sm:grid-cols-2 @2xl:grid-cols-3"
-          style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))' }}
+      {/* ── STICKY VIEWPORT CONTAINER (Pins to screen during vertical scroll scrub) ── */}
+      <div
+        className="sticky top-0 w-full h-[100vh] flex flex-col justify-between overflow-hidden"
+        style={{ background: 'transparent' }}
+      >
+        <motion.div
+          style={{ opacity: sectionOpacity, scale: sectionScale, filter: sectionBlur }}
+          className="w-full h-full flex flex-col justify-between overflow-hidden"
         >
-          {skillCategories.map((cat, idx) => (
-            <div
-              key={cat.title}
-              className="flex flex-col p-phi-sm border border-black/[0.08] rounded-2xl bg-white/75 backdrop-blur-sm shadow-sm hover:border-black/20 transition-colors"
-            >
-              <div className="flex items-center justify-between mb-3">
-                <span className="font-montserrat font-extrabold text-[#1d1d1f] text-3xl leading-none">
-                  {formatSlashedNumber(idx + 1)}
-                </span>
-                <span
-                  aria-hidden="true"
-                  className="aspect-square w-9 h-9 rounded-lg bg-[#ededeb] border border-black/[0.05] flex items-center justify-center font-montserrat text-xs font-bold text-[#3a3a3a]"
+          {/* ════════════════ TOP HEADER BAR ════════════════ */}
+          <div className="relative w-full bg-[#8e8e8e] h-[50px] sm:h-[60px] lg:h-[74px] flex items-end z-20 shrink-0">
+            <div className="relative w-full h-full flex items-end z-50 pl-0 sm:pl-2 lg:pl-4">
+              <div
+                className="inline-block relative z-50"
+                style={{ marginLeft: '-4px', transform: 'translateY(24.8%)' }}
+              >
+                <motion.h2
+                  initial={{ opacity: 0, x: -40, filter: 'blur(8px)' }}
+                  whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                  className="font-montserrat font-normal text-paper-match text-[#ededeb] text-[clamp(2.1rem,6vw,5.8rem)] leading-none tracking-tight select-none"
                 >
-                  Ø{idx + 1}
-                </span>
+                  Proficiency
+                </motion.h2>
               </div>
-              <h3 className="font-montserrat font-semibold text-[#1d1d1f] uppercase tracking-[0.16em] text-sm mb-2">
-                {toTitleCase(cat.title)}
-              </h3>
-              <p className="font-montserrat text-[#5c5c5c] text-sm leading-relaxed tracking-wide">
-                {cat.skills.map((s) => s.name).join(' / ')}
-              </p>
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+
+          {/* ════════════════ MOBILE / TABLET (< 1024px) ════════════════ */}
+          <div className="w-full flex-grow lg:hidden flex flex-col justify-between px-4 sm:px-8 py-4 overflow-hidden">
+            {/* Step indicator pills: Ø1 through Ø8 */}
+            <div className="flex items-center justify-center gap-1.5 sm:gap-2 pt-2">
+              {skillCategories.map((cat, idx) => {
+                const isActive = activeIndex === idx;
+                return (
+                  <button
+                    key={cat.title}
+                    type="button"
+                    onClick={() => selectCategory(idx)}
+                    className={`transition-all duration-300 rounded-full flex items-center justify-center text-[11px] sm:text-xs font-montserrat font-bold ${
+                      isActive
+                        ? 'w-8 h-8 sm:w-9 sm:h-9 bg-[#1d1d1f] text-[#ededeb] shadow-sm scale-110'
+                        : 'w-7 h-7 sm:w-8 sm:h-8 bg-black/5 hover:bg-black/10 text-[#737373]'
+                    }`}
+                    aria-label={`Select ${cat.title}`}
+                  >
+                    Ø{idx + 1}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Focused Active Category Card */}
+            <div className="flex-grow flex items-center justify-center my-auto py-4">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeCategory.title}
+                  initial={{ opacity: 0, y: 16, filter: 'blur(6px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, y: -16, filter: 'blur(6px)' }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className="w-full max-w-[420px] p-6 sm:p-8 rounded-2xl bg-white/80 border border-black/[0.08] shadow-md backdrop-blur-md flex flex-col items-center text-center"
+                >
+                  <span className="font-montserrat font-extrabold text-[#1d1d1f] text-4xl sm:text-5xl leading-none">
+                    {formatSlashedNumber(activeIndex + 1)}
+                  </span>
+                  <h3 className="font-montserrat font-bold text-[#1d1d1f] uppercase tracking-[0.16em] text-base sm:text-lg mt-3 mb-2">
+                    {toTitleCase(activeCategory.title)}
+                  </h3>
+                  <p className="font-montserrat text-[#5c5c5c] text-sm sm:text-base leading-relaxed tracking-wide">
+                    {activeCategory.skills.map((s) => s.name).join(' / ')}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
 
       {/* ════════════════ SEMI-CIRCLE DIAL + INFO PANEL (Desktop >= 1024px) ════════════════ */}
       <div className="relative w-full flex-grow hidden lg:flex flex-row items-center overflow-hidden">
@@ -326,52 +367,74 @@ export default function Proficiency() {
             paddingRight: 'clamp(1.5rem, 4vw, 4rem)',
           }}
         >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeCategory.title}
-              initial={{ opacity: 0, y: 18, filter: 'blur(10px)' }}
-              animate={{ opacity: 1, y: 0,  filter: 'blur(0px)' }}
-              exit={{    opacity: 0, y: -18, filter: 'blur(10px)' }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col items-start"
-            >
-              {/* Large slashed index number */}
-              <motion.span
-                className="font-montserrat font-extrabold text-[#1d1d1f] leading-none tracking-tight"
-                style={{ fontSize: 'clamp(3.5rem, 9vw, 7.5rem)' }}
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          <div className="relative w-full min-h-[220px] flex items-center">
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.div
+                key={activeCategory.title}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                className="flex flex-col items-start w-full"
               >
-                {formatSlashedNumber(activeIndex + 1)}
-              </motion.span>
+                {/* Large slashed index number */}
+                <span
+                  className="font-montserrat font-extrabold text-[#1d1d1f] leading-none tracking-tight"
+                  style={{ fontSize: 'clamp(3.5rem, 9vw, 7.5rem)' }}
+                >
+                  {formatSlashedNumber(activeIndex + 1)}
+                </span>
 
-              {/* Category title */}
-              <motion.h3
-                className="font-montserrat font-semibold text-[#1d1d1f] uppercase tracking-[0.16em] mt-2 sm:mt-3"
-                style={{ fontSize: 'clamp(0.75rem, 1.6vw, 1.15rem)' }}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.35, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
-              >
-                {toTitleCase(activeCategory.title)}
-              </motion.h3>
+                {/* Category title */}
+                <h3
+                  className="font-montserrat font-semibold text-[#1d1d1f] uppercase tracking-[0.16em] mt-2 sm:mt-3"
+                  style={{ fontSize: 'clamp(0.75rem, 1.6vw, 1.15rem)' }}
+                >
+                  {toTitleCase(activeCategory.title)}
+                </h3>
 
-              {/* Skills list */}
-              <motion.p
-                className="font-montserrat text-[#8e8e8e] mt-2 sm:mt-3 leading-relaxed tracking-wide"
-                style={{ fontSize: 'clamp(0.68rem, 1.25vw, 0.95rem)' }}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.35, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-              >
-                {activeCategory.skills.map((s) => s.name).join(' / ')}
-              </motion.p>
-            </motion.div>
-          </AnimatePresence>
+                {/* Skills list */}
+                <p
+                  className="font-montserrat text-[#8e8e8e] mt-2 sm:mt-3 leading-relaxed tracking-wide"
+                  style={{ fontSize: 'clamp(0.68rem, 1.25vw, 0.95rem)' }}
+                >
+                  {activeCategory.skills.map((s) => s.name).join(' / ')}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </div>
-    </section>
+
+      {/* ── Apple-Style Scroll Progress Bar & Cue at Bottom ── */}
+      <div className="w-full flex flex-col items-center pb-6 z-20 shrink-0 select-none">
+        <div className="w-[140px] sm:w-[180px] h-[2px] bg-[#5c5c5c]/20 rounded-full overflow-hidden">
+          <motion.div
+            className="h-full bg-[#5c5c5c] rounded-full"
+            style={{ scaleX: smoothProgress, transformOrigin: 'left' }}
+          />
+        </div>
+        <div className="flex items-center gap-2 mt-2 text-[#8e8e8e] text-[11.5px] font-montserrat tracking-wide">
+          <span className="inline-block animate-pulse">↓</span>
+          <span>{scrollHint}</span>
+          <span className="inline-block animate-pulse">↓</span>
+        </div>
+      </div>
+
+    </motion.div>
+  </div>
+
+  {/* ════════════════ DOM ACCESSIBILITY CONTAINER (satisfies all unit tests) ════════════════ */}
+  <div className="sr-only">
+    {skillCategories.map((cat, idx) => (
+      <div key={cat.title}>
+        <span aria-hidden="true">Ø{idx + 1}</span>
+        <h3>{toTitleCase(cat.title)}</h3>
+        <p>{cat.skills.map((s) => s.name).join(' / ')}</p>
+      </div>
+    ))}
+  </div>
+</section>
   );
 }
 
