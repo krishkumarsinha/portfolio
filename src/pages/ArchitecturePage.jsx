@@ -24,10 +24,23 @@ export default function ArchitecturePage({ onBack }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeProject]);
 
-  const filteredProjects =
-    selectedCategory === 'All'
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (activeProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [activeProject]);
+
+  const filteredProjects = React.useMemo(() => {
+    return selectedCategory === 'All'
       ? projectsData
       : projectsData.filter((p) => p.category.toLowerCase() === selectedCategory.toLowerCase());
+  }, [selectedCategory]);
 
   const handleBack = () => {
     if (onBack) {

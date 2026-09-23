@@ -24,10 +24,23 @@ export default function PhotosPage({ onBack }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activePhoto]);
 
-  const filteredPhotos =
-    selectedCategory === 'All'
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (activePhoto) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [activePhoto]);
+
+  const filteredPhotos = React.useMemo(() => {
+    return selectedCategory === 'All'
       ? photosData
       : photosData.filter((p) => p.category.toLowerCase() === selectedCategory.toLowerCase());
+  }, [selectedCategory]);
 
   const handleBack = () => {
     if (onBack) {

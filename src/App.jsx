@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar/Navbar';
 import Hero, { LandingSection, HeroProfileSection } from './components/Hero/Hero';
@@ -6,9 +6,9 @@ import Timeline from './components/Timeline/Timeline';
 import Proficiency from './components/Proficiency/Proficiency';
 import Achievements from './components/Achievements/Achievements';
 import ScrollStack, { ScrollStackSection, StackLayer } from './components/ScrollStack/ScrollStack';
-import ArchitecturePage from './pages/ArchitecturePage';
-import PhotosPage from './pages/PhotosPage';
-import DesignPage from './pages/DesignPage';
+const ArchitecturePage = React.lazy(() => import('./pages/ArchitecturePage'));
+const PhotosPage = React.lazy(() => import('./pages/PhotosPage'));
+const DesignPage = React.lazy(() => import('./pages/DesignPage'));
 
 function getPageFromHash() {
   if (typeof window === 'undefined') return 'overview';
@@ -57,8 +57,15 @@ function App() {
     const handleHashChange = () => {
       setCurrentPage(getPageFromHash());
     };
+    let ticking = false;
     const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 400);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setShowBackToTop(window.scrollY > 400);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     window.addEventListener('hashchange', handleHashChange);
@@ -122,7 +129,9 @@ function App() {
             exit="exit"
             className="flex-grow"
           >
-            <ArchitecturePage onBack={() => navigateTo('#')} />
+            <Suspense fallback={<div className="h-screen w-full" />}>
+              <ArchitecturePage onBack={() => navigateTo('#')} />
+            </Suspense>
           </motion.div>
         )}
 
@@ -135,7 +144,9 @@ function App() {
             exit="exit"
             className="flex-grow"
           >
-            <PhotosPage onBack={() => navigateTo('#')} />
+            <Suspense fallback={<div className="h-screen w-full" />}>
+              <PhotosPage onBack={() => navigateTo('#')} />
+            </Suspense>
           </motion.div>
         )}
 
@@ -148,7 +159,9 @@ function App() {
             exit="exit"
             className="flex-grow"
           >
-            <DesignPage onBack={() => navigateTo('#')} />
+            <Suspense fallback={<div className="h-screen w-full" />}>
+              <DesignPage onBack={() => navigateTo('#')} />
+            </Suspense>
           </motion.div>
         )}
 

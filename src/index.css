@@ -48,16 +48,10 @@ body {
   background-image: url('/textures/paper-texture.webp');
   background-repeat: repeat;
   background-size: 288px 512px;
-  animation: paper-drift 40s linear infinite;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
-}
-
-@keyframes paper-drift {
-  from { background-position: 0 0; }
-  to   { background-position: 0 512px; }
 }
 
 /* Architectural Paper Texture Background */

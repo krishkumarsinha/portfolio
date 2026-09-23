@@ -24,10 +24,23 @@ export default function DesignPage({ onBack }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeDesign]);
 
-  const filteredDesigns =
-    selectedCategory === 'All'
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (activeDesign) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [activeDesign]);
+
+  const filteredDesigns = React.useMemo(() => {
+    return selectedCategory === 'All'
       ? designsData
       : designsData.filter((d) => d.category.toLowerCase() === selectedCategory.toLowerCase());
+  }, [selectedCategory]);
 
   const handleBack = () => {
     if (onBack) {

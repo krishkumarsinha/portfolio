@@ -175,34 +175,56 @@ export const HeroProfileSection = () => {
       id="hero"
       ref={heroSectionRef}
       style={{ opacity: sectionOpacity }}
-      className="relative z-10 w-full h-full flex flex-col justify-between overflow-hidden select-none @container"
+      className="relative z-10 w-full h-[calc(100svh-43px)] lg:h-[calc(100vh-43px)] lg:min-h-[540px] flex flex-col justify-between overflow-hidden select-none @container pt-3 sm:pt-6 lg:pt-0"
     >
-      {/* ── MOBILE / TABLET (< lg) — Balanced vertical stack ── */}
-      <div className="lg:hidden flex flex-col items-center justify-between h-[calc(100svh-43px)] pt-3 sm:pt-6 relative z-10 w-full overflow-hidden">
-        {/* Philosophy Quote — 2 lines centered and aligned with mobile arch card */}
-        <motion.div
-          style={{ y: quoteY, filter: blurFilter }}
-          className="w-full max-w-[520px] px-3 text-center my-1"
-        >
-          <p className="font-montserrat text-[clamp(0.72rem,2.1vw,0.84rem)] font-normal text-[#222222] leading-[1.55]">
-            <span className="block">
-              By balancing honest materials, natural light, and quiet proportions, I shape thoughtful
-            </span>
-            <span className="block mt-0.5">
-              architectural spaces where people are invited to slow down and feel deeply present
-            </span>
-          </p>
-        </motion.div>
+      {/* Container for unified layout */}
+      <div className="relative w-full h-full flex flex-col lg:flex-row items-center justify-between lg:justify-end overflow-hidden lg:overflow-visible">
+        
+        {/* Left Column (Desktop) / Top-Bottom (Mobile): Info & Quote */}
+        <div className="w-full lg:w-1/2 h-full flex flex-col items-center justify-between lg:justify-end px-3 lg:px-8 pb-0 lg:pb-[54px] xl:pb-[62px] z-30">
+          
+          {/* Philosophy Quote */}
+          <motion.div
+            style={{ y: quoteY, filter: blurFilter }}
+            className="w-full max-w-[520px] lg:max-w-none text-center lg:text-right my-1 lg:my-0 lg:absolute lg:right-[25%] lg:bottom-[calc(100%+32px)] xl:bottom-[calc(100%+44px)] lg:w-[340px] lg:lg:w-[400px] xl:w-[450px] 2xl:w-[480px] pointer-events-auto"
+          >
+            <p className="font-montserrat text-[clamp(0.72rem,2.1vw,0.84rem)] lg:text-[clamp(0.78rem,0.95vw,0.88rem)] font-normal text-[#222222] leading-[1.55] lg:leading-[1.65]">
+              <span className="block lg:whitespace-nowrap">
+                By balancing honest materials, natural light, and quiet proportions, I shape thoughtful
+              </span>
+              <span className="block lg:whitespace-nowrap mt-0.5">
+                architectural spaces where people are invited to slow down and feel deeply present
+              </span>
+            </p>
+          </motion.div>
+
+          {/* Institution Info */}
+          <motion.div
+            style={{ y: textY, filter: blurFilter }}
+            className="text-center px-4 mb-2 lg:mb-0 shrink-0 lg:order-last"
+          >
+            <p className="font-montserrat text-[clamp(0.72rem,2.2vw,0.85rem)] lg:text-[clamp(0.85rem,1.1vw,1rem)] text-[#5c5c5c] font-normal">
+              4th Year Architecture Student at
+            </p>
+            <p className="font-montserrat text-[clamp(0.95rem,3.2vw,1.25rem)] lg:text-[clamp(1.3rem,1.7vw,1.65rem)] font-bold text-[#3a3a3a] mt-0.5 lg:mt-1.5 tracking-tight">
+              National Institute of Technology Patna
+            </p>
+          </motion.div>
+        </div>
 
         {/* Arch Card + Portrait Cutout */}
-        <motion.div
-          style={{ scale: bgCardScale, y: cardY, filter: blurFilter }}
-          className="relative w-[82%] sm:w-[68%] md:w-[56%] max-w-[320px] h-[34svh] sm:h-[38svh] max-h-[300px] flex justify-center items-end my-auto"
-        >
-          <div className="absolute inset-0 bg-[#c5c5c5] rounded-t-[2.5rem] sm:rounded-t-[3rem]" />
+        <div className="relative w-[82%] sm:w-[68%] md:w-[56%] lg:w-auto max-w-[320px] lg:max-w-none h-[34svh] sm:h-[38svh] max-h-[300px] lg:h-full lg:max-h-none flex justify-center lg:justify-end items-end my-auto lg:my-0 lg:absolute lg:right-0 pointer-events-none z-20">
+          
+          {/* Grey Arch Shape Backdrop */}
           <motion.div
-            className="absolute inset-x-0 bottom-0 z-10 pointer-events-none flex justify-center items-end"
+            style={{ scale: bgCardScale, y: cardY, filter: blurFilter, transformOrigin: 'bottom right' }}
+            className="absolute inset-0 lg:inset-auto lg:right-1/2 lg:bottom-0 z-0 lg:w-[340px] lg:lg:w-[400px] xl:w-[450px] 2xl:w-[480px] lg:h-[83.33%] bg-[#c5c5c5] rounded-t-[2.5rem] sm:rounded-t-[3rem] lg:rounded-t-[4rem] xl:rounded-t-[4.5rem]"
+          />
+
+          {/* Profile Photo cutout */}
+          <motion.div
             style={{ height: '124%', y: photoSpring }}
+            className="absolute lg:relative inset-x-0 lg:inset-x-auto bottom-0 z-10 pointer-events-none flex justify-center lg:justify-end items-end lg:h-full"
           >
             <picture className="h-full flex items-end justify-center">
               <source
@@ -216,108 +238,9 @@ export const HeroProfileSection = () => {
                 height="971"
                 loading="eager"
                 fetchpriority="high"
-                className="h-full w-auto max-w-none object-contain object-bottom select-none block"
+                className="h-full lg:h-[62svh] lg:xl:h-[70svh] max-h-[100%] lg:max-h-[580px] xl:max-h-[620px] lg:min-h-[380px] w-auto max-w-none object-contain object-bottom select-none block"
                 style={{
                   filter: 'grayscale(100%) contrast(108%) brightness(101%) drop-shadow(-6px 4px 16px rgba(0, 0, 0, 0.25))',
-                  maxHeight: '100%',
-                  imageRendering: '-webkit-optimize-contrast',
-                }}
-              />
-            </picture>
-          </motion.div>
-        </motion.div>
-
-        {/* Institution Info */}
-        <motion.div
-          style={{ y: textY, filter: blurFilter }}
-          className="text-center px-4 mb-2 z-10 shrink-0"
-        >
-          <p className="font-montserrat text-[clamp(0.72rem,2.2vw,0.85rem)] text-[#5c5c5c] font-normal">
-            4th Year Architecture Student at
-          </p>
-          <p className="font-montserrat text-[clamp(0.95rem,3.2vw,1.25rem)] font-bold text-[#3a3a3a] mt-0.5 tracking-tight">
-            National Institute of Technology Patna
-          </p>
-        </motion.div>
-
-        {/* Seamless Bottom Bars on Mobile — full width to borders */}
-        <motion.div
-          style={{ y: cardY, filter: blurFilter }}
-          className="w-full flex flex-col z-20 shrink-0"
-        >
-          <div className="w-full flex flex-col">
-            <div className="w-full bg-[#8e8e8e] h-[20px] sm:h-[25px]" />
-            <div className="w-full bg-[#8e8e8e] h-[28px] sm:h-[36px]" />
-          </div>
-        </motion.div>
-      </div>
-
-      {/* ── DESKTOP (lg+) — Arch Shape & Photo Anchored to Right Margin ── */}
-      <div
-        className="hidden lg:block relative w-full"
-        style={{ height: 'calc(100vh - 43px)', minHeight: '540px' }}
-      >
-        {/* Left Column: Institution Info (anchored near bottom bar in left half) */}
-        <div
-          className="absolute left-0 bottom-0 w-[50%] flex flex-col items-center justify-end text-center z-30 pb-[54px] xl:pb-[62px]"
-        >
-          <motion.div
-            style={{ y: textY, filter: blurFilter }}
-            className="flex flex-col items-center px-8"
-          >
-            <p className="font-montserrat text-[clamp(0.85rem,1.1vw,1rem)] text-[#5c5c5c] font-normal">
-              4th Year Architecture Student at
-            </p>
-            <p className="font-montserrat text-[clamp(1.3rem,1.7vw,1.65rem)] font-bold text-[#3a3a3a] mt-1.5 tracking-tight">
-              National Institute of Technology Patna
-            </p>
-          </motion.div>
-        </div>
-
-        {/* Desktop Arch Shape & Photo Unit — Photo touches right border, Shape right edge touches photo center */}
-        <div className="absolute right-0 bottom-0 flex items-end pointer-events-none z-20 overflow-visible">
-          {/* Architectural Philosophy Quote: strictly 2 lines, aligned with the shape */}
-          <motion.div
-            style={{ y: quoteY, filter: blurFilter }}
-            className="absolute right-1/4 bottom-[calc(100%+32px)] xl:bottom-[calc(100%+44px)] z-20 pointer-events-auto text-right flex flex-col items-end w-[340px] lg:w-[400px] xl:w-[450px] 2xl:w-[480px]"
-          >
-            <p className="font-montserrat text-[clamp(0.78rem,0.95vw,0.88rem)] font-normal text-[#222222] leading-[1.65]">
-              <span className="block whitespace-nowrap">
-                By balancing honest materials, natural light, and quiet proportions, I shape thoughtful
-              </span>
-              <span className="block whitespace-nowrap mt-0.5">
-                architectural spaces where people are invited to slow down and feel deeply present
-              </span>
-            </p>
-          </motion.div>
-
-          {/* Grey Arch Shape Backdrop — right edge aligned at 50% (exact horizontal center of photo) */}
-          <motion.div
-            style={{ scale: bgCardScale, y: cardY, filter: blurFilter, transformOrigin: 'bottom right' }}
-            className="absolute right-1/2 bottom-0 z-0 w-[340px] lg:w-[400px] xl:w-[450px] 2xl:w-[480px] h-[83.33%] bg-[#c5c5c5] rounded-t-[3.5rem] lg:rounded-t-[4rem] xl:rounded-t-[4.5rem]"
-          />
-
-          {/* Profile Photo cutout — right edge touches the right border */}
-          <motion.div
-            style={{ y: photoSpring }}
-            className="relative z-10 flex items-end justify-end pointer-events-none h-full"
-          >
-            <picture className="h-full flex items-end">
-              <source
-                type="image/webp"
-                srcSet="/images/profile.webp 1x, /images/profile_hd.webp 2x"
-              />
-              <img
-                src="/images/profile.png"
-                alt="Krish Kumar Sinha, B.Arch student at NIT Patna, in a formal grayscale portrait"
-                width="600"
-                height="971"
-                loading="eager"
-                fetchpriority="high"
-                className="h-[62svh] lg:h-[66svh] xl:h-[70svh] max-h-[580px] xl:max-h-[620px] min-h-[380px] w-auto max-w-none object-contain object-bottom select-none block"
-                style={{
-                  filter:
-                    'grayscale(100%) contrast(108%) brightness(101%) drop-shadow(-6px 4px 16px rgba(0, 0, 0, 0.25))',
                   imageRendering: '-webkit-optimize-contrast',
                 }}
               />
@@ -326,15 +249,13 @@ export const HeroProfileSection = () => {
         </div>
       </div>
 
-      {/* ── Seamless Stacked Bottom Bars (Full Viewport Width to Both Borders) ── */}
+      {/* Seamless Bottom Bars */}
       <motion.div
         style={{ y: cardY, filter: blurFilter }}
-        className="hidden lg:flex absolute bottom-0 left-0 right-0 w-full h-10 z-20 flex-col pointer-events-none"
+        className="w-full flex flex-col z-20 shrink-0 lg:absolute lg:bottom-0 lg:left-0 lg:right-0 pointer-events-none"
       >
-        <div className="w-full flex flex-col">
-          <div className="w-full bg-[#8e8e8e] h-[20px] sm:h-[25px] lg:h-[30px]" />
-          <div className="w-full bg-[#8e8e8e] h-[30px] sm:h-[38px] lg:h-[45px]" />
-        </div>
+        <div className="w-full bg-[#8e8e8e] h-[20px] sm:h-[25px] lg:h-[30px]" />
+        <div className="w-full bg-[#8e8e8e] h-[28px] sm:h-[36px] lg:h-[45px]" />
       </motion.div>
     </motion.section>
   );

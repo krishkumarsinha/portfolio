@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'framer-motion';
-import { skillCategories, skillPairs } from '../../data/skills';
-import SkillCategory from '../common/SkillCategory';
+import { skillCategories } from '../../data/skills';
 import SkillMatrix from './SkillMatrix';
 
 const toTitleCase = (str) => {
@@ -37,7 +36,7 @@ const DOT_ANGLES = [-70, -50, -30, -10, 10, 30, 50, 70];
 const toRad = (deg) => (deg * Math.PI) / 180;
 
 // ── Dial Item (counter-rotates label text to stay upright) ────────────────
-function DialItem({ cat, idx, activeIndex, selectCategory, currentRot }) {
+function DialItem({ cat, idx, activeIndex, selectCategory, rotation }) {
   const angleDeg = DOT_ANGLES[idx];
   const rad = toRad(angleDeg);
 
@@ -48,6 +47,9 @@ function DialItem({ cat, idx, activeIndex, selectCategory, currentRot }) {
 
   const isActive = activeIndex === idx;
   const itemNum = formatNumber(idx + 1);
+
+  // Counter-rotate the label so it stays upright
+  const counterRotation = useTransform(rotation, (r) => `rotate(${-r} ${labelX} ${labelY})`);
 
   return (
     <g
@@ -95,7 +97,7 @@ function DialItem({ cat, idx, activeIndex, selectCategory, currentRot }) {
       />
 
       {/* Upright counter-rotating Ø-number */}
-      <g transform={`rotate(${-currentRot} ${labelX} ${labelY})`}>
+      <motion.g style={{ transform: counterRotation }}>
         <motion.text
           x={labelX}
           y={labelY}
@@ -113,7 +115,7 @@ function DialItem({ cat, idx, activeIndex, selectCategory, currentRot }) {
         >
           {itemNum}
         </motion.text>
-      </g>
+      </motion.g>
     </g>
   );
 }
@@ -147,7 +149,7 @@ export default function Proficiency({ height = '220vh' }) {
     return smoothProgress.on('change', (latest) => {
       // Advance index 0–7 across scroll progression [0, 0.86]
       const clamped = Math.min(1, Math.max(0, latest / 0.86));
-      const idx = Math.min(7, Math.floor(clamped * 8));
+      const idx = Math.min(skillCategories.length - 1, Math.floor(clamped * 8));
       setActiveIndex(idx);
 
       if (latest > 0.86) {
@@ -162,18 +164,12 @@ export default function Proficiency({ height = '220vh' }) {
   // Rotates the wheel so the active item glides to the 0° position
   // (the rightmost point of the circle, closest to the info panel).
   const rotation = useSpring(0, { stiffness: 90, damping: 18, restDelta: 0.001 });
-  const [currentRot, setCurrentRot] = useState(0);
-
   useEffect(() => {
     rotation.set(-DOT_ANGLES[activeIndex]);
   }, [activeIndex, rotation]);
 
-  useEffect(() => {
-    return rotation.on('change', (v) => setCurrentRot(v));
-  }, [rotation]);
-
   const selectCategory = (idx) => {
-    setActiveIndex(Math.min(7, Math.max(0, idx)));
+    setActiveIndex(Math.min(skillCategories.length - 1, Math.max(0, idx)));
   };
 
   const handleDialKeyDown = (e) => {
@@ -321,7 +317,7 @@ export default function Proficiency({ height = '220vh' }) {
             />
 
             {/* ── Rotating group: spins around (0, 475) ── */}
-            <g transform={`rotate(${currentRot} ${ARC_CX} ${ARC_CY})`}>
+            <motion.g style={{ rotate: rotation, transformOrigin: `${ARC_CX}px ${ARC_CY}px` }}>
               {/* Full circle guide track (left half naturally clipped) */}
               <circle
                 cx={ARC_CX}
@@ -343,10 +339,10 @@ export default function Proficiency({ height = '220vh' }) {
                   idx={idx}
                   activeIndex={activeIndex}
                   selectCategory={selectCategory}
-                  currentRot={currentRot}
+                  rotation={rotation}
                 />
               ))}
-            </g>
+            </motion.g>
           </svg>
 
           {/* Prev / Next buttons */}
@@ -364,7 +360,7 @@ export default function Proficiency({ height = '220vh' }) {
               type="button"
               aria-label="Next skill category"
               onClick={() => selectCategory(activeIndex + 1)}
-              disabled={activeIndex === 7}
+              disabled={activeIndex === skillCategories.length - 1}
               className="w-11 h-11 rounded-full bg-black/5 hover:bg-black/10 disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center font-montserrat text-lg text-[#3a3a3a] transition-colors focus-visible:ring-2 focus-visible:ring-[#3a3a3a] focus-visible:outline-none"
             >
               ›

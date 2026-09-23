@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll } from 'framer-motion';
 
 const NAV_LINKS = [
   { label: 'Architecture', href: '#architecture' },
@@ -16,22 +16,15 @@ const NAV_LINKS = [
  */
 const Navbar = ({ activePage = 'overview' }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [scrolled, setScrolled] = useState(false);
+  const { scrollYProgress, scrollY } = useScroll();
 
-  // Track scroll progress
   useEffect(() => {
-    const handleScroll = () => {
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalScroll > 0) {
-        setScrollProgress(window.scrollY / totalScroll);
-      }
-      setScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    return scrollY.on('change', (latest) => {
+      const isScrolled = latest > 20;
+      setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
+    });
+  }, [scrollY]);
 
   // Close drawer on resize to desktop or on Escape key
   useEffect(() => {
@@ -68,9 +61,8 @@ const Navbar = ({ activePage = 'overview' }) => {
       >
         {/* Subtle scroll progress line at the very top edge */}
         <motion.div
-          className="absolute top-0 left-0 h-[2px] bg-[#ededeb]/60 z-50"
-          style={{ width: `${Math.min(Math.max(scrollProgress * 100, 0), 100)}%` }}
-          transition={{ duration: 0.075 }}
+          className="absolute top-0 left-0 right-0 h-[2px] bg-[#ededeb]/60 z-50 origin-left"
+          style={{ scaleX: scrollYProgress }}
         />
 
         {/* ── Top bar ── */}

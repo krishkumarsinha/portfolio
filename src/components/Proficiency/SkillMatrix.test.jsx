@@ -31,9 +31,9 @@ describe('SkillMatrix', () => {
   });
 
   it('renders matrix dot indicators', () => {
-    const { container } = render(<SkillMatrix skills={mockSkills} />);
-    const filledDots = container.querySelectorAll('[data-testid~="skill-dot-filled"]');
-    const unfilledDots = container.querySelectorAll('[data-testid~="skill-dot-unfilled"]');
+    render(<SkillMatrix skills={mockSkills} />);
+    const filledDots = screen.getAllByTestId('skill-dot-filled');
+    const unfilledDots = screen.getAllByTestId('skill-dot-unfilled');
     // 4 + 2 = 6 filled dots; 1 + 3 = 4 unfilled dots; total 10 dots
     expect(filledDots).toHaveLength(6);
     expect(unfilledDots).toHaveLength(4);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { SKILL_LOGOS, DEFAULT_ICON } from '../common/SkillDots';
+import { SKILL_LOGOS, DEFAULT_ICON } from '../common/skillLogos';
 
 export const getSkillLevel = (rating, isLanguage = false) => {
   if (isLanguage) {
@@ -51,11 +51,13 @@ const itemVariants = {
   },
 };
 
+const RATING_STEPS = [0, 1, 2, 3, 4];
+
 /**
  * SkillMatrix — Renders an architectural matrix of tools/skills with
  * custom vector logos, 5-dot rating matrix, numeric score, and proficiency level tag.
  */
-export default function SkillMatrix({ skills = [], isLanguage = false, compact = false }) {
+const SkillMatrix = React.memo(function SkillMatrix({ skills = [], isLanguage = false, compact = false }) {
   if (!skills || skills.length === 0) return null;
 
   return (
@@ -109,12 +111,12 @@ export default function SkillMatrix({ skills = [], isLanguage = false, compact =
             <div className="flex items-center gap-3 sm:gap-4 shrink-0">
               {/* 5-Dot Matrix */}
               <div className="flex items-center gap-1 sm:gap-1.5" aria-label={`Rating: ${skill.rating} out of 5`}>
-                {Array.from({ length: 5 }, (_, i) => {
+                {RATING_STEPS.map((i) => {
                   const isFilled = i < skill.rating;
                   return (
                     <div
                       key={i}
-                      data-testid={`skill-dot ${isFilled ? 'skill-dot-filled' : 'skill-dot-unfilled'}`}
+                      data-testid={isFilled ? 'skill-dot-filled' : 'skill-dot-unfilled'}
                       className={`w-[7px] h-[7px] sm:w-[8.5px] sm:h-[8.5px] rounded-full transition-colors ${
                         isFilled ? 'bg-[#1d1d1f]' : 'bg-[#d5d5d2]'
                       }`}
@@ -138,4 +140,6 @@ export default function SkillMatrix({ skills = [], isLanguage = false, compact =
       })}
     </motion.div>
   );
-}
+});
+
+export default SkillMatrix;
