@@ -162,37 +162,35 @@ function App() {
             className="flex-grow flex flex-col"
           >
             <main>
-              {/* ═══════ Scroll-Stack Sections ═══════ */}
+              {/* ═══════ Scroll-Stack Sections: All Equal Height (220vh) & Zero Overlap ═══════ */}
               <ScrollStack>
-                <ScrollStackSection index={0} total={5} height="140dvh" selfFade>
+                <ScrollStackSection index={0} total={5} height="220vh" selfFade>
                   <LandingSection />
                 </ScrollStackSection>
 
-                <ScrollStackSection index={1} total={5} height="180dvh" selfFade overlap="35vh">
+                <ScrollStackSection index={1} total={5} height="220vh" selfFade>
                   <HeroProfileSection />
                 </ScrollStackSection>
 
-                {/* Timeline drives its own 280vh pin + fade — don't re-wrap it */}
-                <StackLayer index={2} total={5} overlap="35vh">
-                  <Timeline />
+                <StackLayer index={2} total={5}>
+                  <Timeline height="220vh" />
                 </StackLayer>
 
-                {/* Proficiency drives its own 280vh pin + scroll-scrub — don't re-wrap in ScrollStackSection */}
-                <StackLayer index={3} total={5} overlap="35vh">
-                  <Proficiency />
+                <StackLayer index={3} total={5}>
+                  <Proficiency height="220vh" />
                 </StackLayer>
 
-                <StackLayer index={4} total={5} overlap="35vh">
-                  <Achievements />
+                <StackLayer index={4} total={5}>
+                  <Achievements height="220vh" />
                 </StackLayer>
               </ScrollStack>
 
               {/* ════════════════ DEDICATED PAGES SHOWCASE DIRECTORY ════════════════ */}
               <section
                 id="showcase-portals"
-                className="relative w-full bg-[#ededeb] paper-bg select-none z-50 rounded-t-[24px] shadow-[0_-15px_40px_-10px_rgba(0,0,0,0.30),0_-4px_12px_rgba(0,0,0,0.12)]"
+                className="relative w-full bg-[#ededeb] paper-bg select-none z-50 rounded-t-[24px] shadow-[0_-15px_40px_-10px_rgba(0,0,0,0.10),0_-4px_12px_rgba(0,0,0,0.05)]"
                 style={{
-                  marginTop: '-35vh',
+                  marginTop: 0,
                   paddingTop: 'var(--space-xl)',
                   paddingBottom: 'var(--space-xl)',
                   paddingLeft: 'var(--space-sm)',

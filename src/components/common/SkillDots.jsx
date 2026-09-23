@@ -1,10 +1,10 @@
-﻿import React from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 
 /**
  * Tailored Minimal Vector SVGs for every architectural software and skill
  */
-const SKILL_LOGOS = {
+export const SKILL_LOGOS = {
   'AUTO CAD': (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 sm:w-4 sm:h-4">
       <path d="M4 20L12 4l8 16" />
@@ -198,7 +198,7 @@ const SKILL_LOGOS = {
   ),
 };
 
-const DEFAULT_ICON = (
+export const DEFAULT_ICON = (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 sm:w-4 sm:h-4">
     <polygon points="12 2 2 7 12 12 22 7 12 2" />
     <polyline points="2 17 12 22 22 17" />

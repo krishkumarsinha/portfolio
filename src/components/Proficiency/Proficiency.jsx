@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'framer-motion';
 import { skillCategories, skillPairs } from '../../data/skills';
 import SkillCategory from '../common/SkillCategory';
+import SkillMatrix from './SkillMatrix';
 
 const toTitleCase = (str) => {
   if (!str) return '';
@@ -12,9 +13,8 @@ const toTitleCase = (str) => {
     .join(' ');
 };
 
-const formatSlashedNumber = (num) => {
-  const str = num < 10 ? `0${num}` : `${num}`;
-  return str.replace(/0/g, 'Ø');
+const formatNumber = (num) => {
+  return `${num}`;
 };
 
 // ── Semi-Circle Geometry ──────────────────────────────────────────────────
@@ -46,8 +46,8 @@ function DialItem({ cat, idx, activeIndex, selectCategory, currentRot }) {
   const labelX = ARC_CX + LABEL_R * Math.cos(rad);
   const labelY = ARC_CY + LABEL_R * Math.sin(rad);
 
-  const isActive   = activeIndex === idx;
-  const slashedNum = formatSlashedNumber(idx + 1);
+  const isActive = activeIndex === idx;
+  const itemNum = formatNumber(idx + 1);
 
   return (
     <g
@@ -111,7 +111,7 @@ function DialItem({ cat, idx, activeIndex, selectCategory, currentRot }) {
           className="select-none group-hover:fill-[#3a3a3a]"
           aria-hidden="true"
         >
-          {slashedNum}
+          {itemNum}
         </motion.text>
       </g>
     </g>
@@ -119,11 +119,11 @@ function DialItem({ cat, idx, activeIndex, selectCategory, currentRot }) {
 }
 
 // ── Main Component ────────────────────────────────────────────────────────
-export default function Proficiency() {
+export default function Proficiency({ height = '220vh' }) {
   const sectionRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Apple scroll-scrub: maps vertical scroll through 280vh to item progression
+  // Apple scroll-scrub: maps vertical scroll through section height to item progression
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end end'],
@@ -135,10 +135,10 @@ export default function Proficiency() {
     restDelta: 0.001,
   });
 
-  // Apple section dissolve transition into Achievements
-  const sectionOpacity = useTransform(smoothProgress, [0, 0.04, 0.88, 1], [0.85, 1, 1, 0]);
-  const sectionScale = useTransform(smoothProgress, [0, 0.04, 0.88, 1], [0.985, 1, 1, 0.96]);
-  const sectionBlurVal = useTransform(smoothProgress, [0.88, 1], [0, 4]);
+  // Crisp 100% opacity throughout section, dissolving cleanly at the very end
+  const sectionOpacity = useTransform(smoothProgress, [0, 0.9, 1], [1, 1, 0]);
+  const sectionScale = useTransform(smoothProgress, [0, 0.9, 1], [1, 1, 0.96]);
+  const sectionBlurVal = useTransform(smoothProgress, [0.9, 1], [0, 4]);
   const sectionBlur = useTransform(sectionBlurVal, (v) => `blur(${v}px)`);
 
   const [scrollHint, setScrollHint] = useState('Scroll down to explore skills ↓');
@@ -193,11 +193,11 @@ export default function Proficiency() {
       id="proficiency"
       ref={sectionRef}
       className="relative w-full select-none z-30"
-      style={{ height: '280vh' }}
+      style={{ height }}
     >
       {/* ── STICKY VIEWPORT CONTAINER (Pins to screen during vertical scroll scrub) ── */}
       <div
-        className="sticky top-0 w-full h-[100vh] flex flex-col justify-between overflow-hidden"
+        className="sticky top-[43px] w-full h-[calc(100vh-43px)] flex flex-col justify-between overflow-hidden"
         style={{ background: 'transparent' }}
       >
         <motion.div
@@ -242,32 +242,45 @@ export default function Proficiency() {
                     }`}
                     aria-label={`Select ${cat.title}`}
                   >
-                    Ø{idx + 1}
+                    {idx + 1}
                   </button>
                 );
               })}
             </div>
 
             {/* Focused Active Category Card */}
-            <div className="flex-grow flex items-center justify-center my-auto py-4">
-              <AnimatePresence mode="wait">
+            <div className="flex-grow flex items-center justify-center my-auto py-2">
+              <AnimatePresence mode="popLayout" initial={false}>
                 <motion.div
                   key={activeCategory.title}
-                  initial={{ opacity: 0, y: 16, filter: 'blur(6px)' }}
-                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, y: -16, filter: 'blur(6px)' }}
-                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                  className="w-full max-w-[420px] p-6 sm:p-8 rounded-2xl bg-white/80 border border-black/[0.08] shadow-md backdrop-blur-md flex flex-col items-center text-center"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                  className="w-full max-w-[440px] p-4 sm:p-6 rounded-2xl bg-white/85 border border-black/[0.08] shadow-md backdrop-blur-md flex flex-col items-center"
                 >
-                  <span className="font-montserrat font-extrabold text-[#1d1d1f] text-4xl sm:text-5xl leading-none">
-                    {formatSlashedNumber(activeIndex + 1)}
-                  </span>
-                  <h3 className="font-montserrat font-bold text-[#1d1d1f] uppercase tracking-[0.16em] text-base sm:text-lg mt-3 mb-2">
-                    {toTitleCase(activeCategory.title)}
-                  </h3>
-                  <p className="font-montserrat text-[#5c5c5c] text-sm sm:text-base leading-relaxed tracking-wide">
-                    {activeCategory.skills.map((s) => s.name).join(' / ')}
-                  </p>
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="font-montserrat font-extrabold text-[#1d1d1f] text-3xl sm:text-4xl leading-none">
+                      {formatNumber(activeIndex + 1)}
+                    </span>
+                    <div className="text-left">
+                      <h3 className="font-montserrat font-bold text-[#1d1d1f] uppercase tracking-[0.16em] text-sm sm:text-base leading-tight">
+                        {toTitleCase(activeCategory.title)}
+                      </h3>
+                      <span className="text-[10.5px] font-montserrat tracking-wider uppercase text-[#8e8e8e]">
+                        {activeCategory.skills.length} Competencies
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Skill Rating Matrix with Logo */}
+                  <div className="w-full mt-2">
+                    <SkillMatrix
+                      skills={activeCategory.skills}
+                      isLanguage={activeCategory.title === 'LANGUAGES'}
+                      compact={true}
+                    />
+                  </div>
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -359,15 +372,15 @@ export default function Proficiency() {
           </div>
         </div>
 
-        {/* ── RIGHT 60%: Active category info ─────────────────────────── */}
+        {/* ── RIGHT 60%: Active category info & Skill Matrix ─────────────────────────── */}
         <div
-          className="w-[60%] flex-grow flex flex-col justify-center min-w-0 py-6 sm:py-8"
+          className="w-[60%] flex-grow flex flex-col justify-center min-w-0 py-4 sm:py-6"
           style={{
-            paddingLeft: 'clamp(2.5rem, 8vw, 8rem)',
-            paddingRight: 'clamp(1.5rem, 4vw, 4rem)',
+            paddingLeft: 'clamp(2rem, 6vw, 6rem)',
+            paddingRight: 'clamp(1.5rem, 4vw, 4.5rem)',
           }}
         >
-          <div className="relative w-full min-h-[220px] flex items-center">
+          <div className="relative w-full max-w-[580px] flex items-center">
             <AnimatePresence mode="popLayout" initial={false}>
               <motion.div
                 key={activeCategory.title}
@@ -377,29 +390,34 @@ export default function Proficiency() {
                 transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
                 className="flex flex-col items-start w-full"
               >
-                {/* Large slashed index number */}
-                <span
-                  className="font-montserrat font-extrabold text-[#1d1d1f] leading-none tracking-tight"
-                  style={{ fontSize: 'clamp(3.5rem, 9vw, 7.5rem)' }}
-                >
-                  {formatSlashedNumber(activeIndex + 1)}
-                </span>
+                {/* Header: Number + Category title + Competencies count */}
+                <div className="flex items-baseline gap-4 mb-2">
+                  <span
+                    className="font-montserrat font-extrabold text-[#1d1d1f] leading-none tracking-tight select-none"
+                    style={{ fontSize: 'clamp(3rem, 6vw, 4.8rem)' }}
+                  >
+                    {formatNumber(activeIndex + 1)}
+                  </span>
+                  <div>
+                    <h3
+                      className="font-montserrat font-bold text-[#1d1d1f] uppercase tracking-[0.16em] leading-tight"
+                      style={{ fontSize: 'clamp(1rem, 2vw, 1.35rem)' }}
+                    >
+                      {toTitleCase(activeCategory.title)}
+                    </h3>
+                    <span className="text-[11px] font-montserrat tracking-wider uppercase text-[#8e8e8e]">
+                      {activeCategory.skills.length} Competencies & Tools
+                    </span>
+                  </div>
+                </div>
 
-                {/* Category title */}
-                <h3
-                  className="font-montserrat font-semibold text-[#1d1d1f] uppercase tracking-[0.16em] mt-2 sm:mt-3"
-                  style={{ fontSize: 'clamp(0.75rem, 1.6vw, 1.15rem)' }}
-                >
-                  {toTitleCase(activeCategory.title)}
-                </h3>
-
-                {/* Skills list */}
-                <p
-                  className="font-montserrat text-[#8e8e8e] mt-2 sm:mt-3 leading-relaxed tracking-wide"
-                  style={{ fontSize: 'clamp(0.68rem, 1.25vw, 0.95rem)' }}
-                >
-                  {activeCategory.skills.map((s) => s.name).join(' / ')}
-                </p>
+                {/* Skill Rating Matrix with Logos */}
+                <div className="w-full mt-2">
+                  <SkillMatrix
+                    skills={activeCategory.skills}
+                    isLanguage={activeCategory.title === 'LANGUAGES'}
+                  />
+                </div>
               </motion.div>
             </AnimatePresence>
           </div>
@@ -428,7 +446,7 @@ export default function Proficiency() {
   <div className="sr-only">
     {skillCategories.map((cat, idx) => (
       <div key={cat.title}>
-        <span aria-hidden="true">Ø{idx + 1}</span>
+        <span aria-hidden="true">{idx + 1}</span>
         <h3>{toTitleCase(cat.title)}</h3>
         <p>{cat.skills.map((s) => s.name).join(' / ')}</p>
       </div>

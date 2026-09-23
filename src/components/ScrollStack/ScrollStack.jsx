@@ -56,7 +56,7 @@ export function ScrollStackSection({
   children,
   index = 0,
   total = 5,
-  height = '140dvh',
+  height = '220vh',
   selfFade = false,
   overlap,
   className = '',
@@ -79,9 +79,9 @@ export function ScrollStackSection({
     offset: ['start start', 'end end'],
   });
 
-  // Fade out during final 25-30% of scroll room.
-  const fadeStart = selfFade ? 0.78 : 0.68;
-  const fadeEnd = 0.96;
+  // Fade out during final 12-14% of scroll room without overlapping next section.
+  const fadeStart = selfFade ? 0.86 : 0.82;
+  const fadeEnd = 0.98;
 
   const opacity = useTransform(scrollYProgress, [0, fadeStart, fadeEnd], [1, 1, 0]);
   const scale = useTransform(scrollYProgress, [fadeStart, fadeEnd], [1, 0.97]);
@@ -121,7 +121,7 @@ export function ScrollStackSection({
       style={{ height, zIndex, marginTop }}
       data-stack-index={index}
     >
-      <div className="sticky top-0 w-full h-[100dvh] overflow-hidden" style={{ background: 'transparent' }}>
+      <div className="sticky top-[43px] w-full h-[calc(100dvh-43px)] overflow-hidden" style={{ background: 'transparent' }}>
         <ScrollStackContext.Provider value={{ scrollYProgress }}>
           <motion.div
             style={selfFade ? undefined : { opacity, scale, filter: filterBlur, y: yExit }}

@@ -74,10 +74,8 @@ const Navbar = ({ activePage = 'overview' }) => {
         />
 
         {/* ── Top bar ── */}
-        <motion.div
-          className="flex items-center justify-between px-4 sm:px-6"
-          animate={{ height: scrolled ? '38px' : '43px' }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
+        <div
+          className="flex items-center justify-between px-4 sm:px-6 h-[43px]"
         >
           <div className="flex items-center gap-[45px] sm:gap-[52px]">
             {/* Brand / Logo */}
@@ -132,7 +130,7 @@ const Navbar = ({ activePage = 'overview' }) => {
               className="block w-[22px] h-[2px] bg-[#ededeb] rounded-full origin-center"
             />
           </button>
-        </motion.div>
+        </div>
 
         {/* ── Mobile drawer (below md) ── */}
         <AnimatePresence>
@@ -179,7 +177,7 @@ const Navbar = ({ activePage = 'overview' }) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={() => setMenuOpen(false)}
-            style={{ top: scrolled ? '38px' : '43px' }}
+            style={{ top: '43px' }}
             className="fixed inset-x-0 bottom-0 bg-black/25 backdrop-blur-[4px] z-40 md:hidden"
             aria-hidden="true"
           />

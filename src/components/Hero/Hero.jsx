@@ -179,13 +179,18 @@ export const HeroProfileSection = () => {
     >
       {/* ── MOBILE / TABLET (< lg) — Balanced vertical stack ── */}
       <div className="lg:hidden flex flex-col items-center justify-between h-[calc(100svh-43px)] pt-3 sm:pt-6 relative z-10 w-full overflow-hidden">
-        {/* Philosophy Quote */}
+        {/* Philosophy Quote — 2 lines centered and aligned with mobile arch card */}
         <motion.div
           style={{ y: quoteY, filter: blurFilter }}
-          className="w-full max-w-[480px] px-2 text-center my-1"
+          className="w-full max-w-[520px] px-3 text-center my-1"
         >
-          <p className="font-montserrat text-[clamp(0.75rem,2.2vw,0.85rem)] font-normal text-[#222222] leading-[1.55]">
-            By balancing honest materials, natural light, and quiet proportions, I shape thoughtful architectural spaces where people are invited to slow down and feel deeply present
+          <p className="font-montserrat text-[clamp(0.72rem,2.1vw,0.84rem)] font-normal text-[#222222] leading-[1.55]">
+            <span className="block">
+              By balancing honest materials, natural light, and quiet proportions, I shape thoughtful
+            </span>
+            <span className="block mt-0.5">
+              architectural spaces where people are invited to slow down and feel deeply present
+            </span>
           </p>
         </motion.div>
 
@@ -240,10 +245,7 @@ export const HeroProfileSection = () => {
           style={{ y: cardY, filter: blurFilter }}
           className="w-full flex flex-col z-20 shrink-0"
         >
-          <div
-            className="w-full flex flex-col"
-            style={{ transform: 'translateY(16px)' }}
-          >
+          <div className="w-full flex flex-col">
             <div className="w-full bg-[#8e8e8e] h-[20px] sm:h-[25px]" />
             <div className="w-full bg-[#8e8e8e] h-[28px] sm:h-[36px]" />
           </div>
@@ -272,22 +274,23 @@ export const HeroProfileSection = () => {
           </motion.div>
         </div>
 
-        {/* Right Column: Architectural Philosophy Quote */}
-        <div
-          className="absolute top-0 right-0 w-full flex justify-end z-20 pointer-events-none pt-8 xl:pt-10 pr-8 sm:pr-12 lg:pr-16 xl:pr-20"
-        >
-          <motion.div
-            style={{ y: quoteY, filter: blurFilter }}
-            className="w-full text-right pointer-events-auto max-w-[440px]"
-          >
-            <p className="font-montserrat text-[clamp(0.82rem,1.05vw,0.95rem)] font-normal text-[#222222] leading-[1.65]">
-              By balancing honest materials, natural light, and quiet proportions, I shape thoughtful architectural spaces where people are invited to slow down and feel deeply present
-            </p>
-          </motion.div>
-        </div>
-
         {/* Desktop Arch Shape & Photo Unit — Photo touches right border, Shape right edge touches photo center */}
         <div className="absolute right-0 bottom-0 flex items-end pointer-events-none z-20 overflow-visible">
+          {/* Architectural Philosophy Quote: strictly 2 lines, aligned with the shape */}
+          <motion.div
+            style={{ y: quoteY, filter: blurFilter }}
+            className="absolute right-1/4 bottom-[calc(100%+32px)] xl:bottom-[calc(100%+44px)] z-20 pointer-events-auto text-right flex flex-col items-end w-[340px] lg:w-[400px] xl:w-[450px] 2xl:w-[480px]"
+          >
+            <p className="font-montserrat text-[clamp(0.78rem,0.95vw,0.88rem)] font-normal text-[#222222] leading-[1.65]">
+              <span className="block whitespace-nowrap">
+                By balancing honest materials, natural light, and quiet proportions, I shape thoughtful
+              </span>
+              <span className="block whitespace-nowrap mt-0.5">
+                architectural spaces where people are invited to slow down and feel deeply present
+              </span>
+            </p>
+          </motion.div>
+
           {/* Grey Arch Shape Backdrop — right edge aligned at 50% (exact horizontal center of photo) */}
           <motion.div
             style={{ scale: bgCardScale, y: cardY, filter: blurFilter, transformOrigin: 'bottom right' }}
@@ -326,12 +329,9 @@ export const HeroProfileSection = () => {
       {/* ── Seamless Stacked Bottom Bars (Full Viewport Width to Both Borders) ── */}
       <motion.div
         style={{ y: cardY, filter: blurFilter }}
-        className="hidden lg:flex absolute bottom-0 left-0 right-0 w-full z-20 flex-col pointer-events-none"
+        className="hidden lg:flex absolute bottom-0 left-0 right-0 w-full h-10 z-20 flex-col pointer-events-none"
       >
-        <div
-          className="w-full flex flex-col"
-          style={{ transform: 'translateY(35px)' }}
-        >
+        <div className="w-full flex flex-col">
           <div className="w-full bg-[#8e8e8e] h-[20px] sm:h-[25px] lg:h-[30px]" />
           <div className="w-full bg-[#8e8e8e] h-[30px] sm:h-[38px] lg:h-[45px]" />
         </div>

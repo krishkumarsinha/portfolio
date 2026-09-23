@@ -8,7 +8,7 @@ import { education, experience, quote } from '../../data/timeline';
  * As vertical scroll progresses, the Linear Tree timeline smoothly scrubs horizontally
  * from Education (first 2 groups) through Experience, and transitions into the next section.
  */
-const Timeline = () => {
+const Timeline = ({ height = '220vh' }) => {
   const sectionRef = useRef(null);
   const trackRef = useRef(null);
   const [scrollDistance, setScrollDistance] = useState(0);
@@ -29,7 +29,7 @@ const Timeline = () => {
     return () => window.removeEventListener('resize', updateDistance);
   }, []);
 
-  // Apple scroll-scrub: maps vertical scroll through 300vh to horizontal translation
+  // Apple scroll-scrub: maps vertical scroll through section height to horizontal translation
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end end'],
@@ -38,10 +38,10 @@ const Timeline = () => {
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 90, damping: 25, restDelta: 0.001 });
   const x = useTransform(smoothProgress, [0, 1], [0, -scrollDistance]);
 
-  // Apple section dissolve transition into Proficiency
-  const trackOpacity = useTransform(smoothProgress, [0, 0.04, 0.88, 1], [0.85, 1, 1, 0]);
-  const trackScale = useTransform(smoothProgress, [0, 0.04, 0.88, 1], [0.985, 1, 1, 0.96]);
-  const trackBlurVal = useTransform(smoothProgress, [0.88, 1], [0, 4]);
+  // Crisp 100% opacity throughout section, dissolving cleanly at the very end
+  const trackOpacity = useTransform(smoothProgress, [0, 0.9, 1], [1, 1, 0]);
+  const trackScale = useTransform(smoothProgress, [0, 0.9, 1], [1, 1, 0.96]);
+  const trackBlurVal = useTransform(smoothProgress, [0.9, 1], [0, 4]);
   const trackBlur = useTransform(trackBlurVal, (v) => `blur(${v}px)`);
 
   const [scrollHint, setScrollHint] = useState('Scroll down to navigate timeline ↓');
@@ -117,10 +117,10 @@ const Timeline = () => {
       id="timeline"
       ref={sectionRef}
       className="relative w-full select-none z-40"
-      style={{ height: '280vh' }}
+      style={{ height }}
     >
       {/* ── STICKY VIEWPORT CONTAINER (Pins to screen during vertical scroll scrub) ── */}
-      <div className="sticky top-0 w-full h-[100vh] flex flex-col justify-between overflow-hidden" style={{ background: 'transparent' }}>
+      <div className="sticky top-[43px] w-full h-[calc(100vh-43px)] flex flex-col justify-between overflow-hidden" style={{ background: 'transparent' }}>
         <motion.div
           style={{ opacity: trackOpacity, scale: trackScale, filter: trackBlur }}
           className="w-full h-full flex flex-col justify-between overflow-hidden"

@@ -59,7 +59,7 @@ const HOBBY_ICONS = {
  * through Institute Experience, Competitions, and Architecture Quote.
  * Hobbies and Pursuits are stationed at the bottom above the footer tab with full-bleed divider.
  */
-export default function Achievements() {
+export default function Achievements({ height = '220vh' }) {
   const sectionRef = useRef(null);
   const trackRef = useRef(null);
   const [scrollDistance, setScrollDistance] = useState(0);
@@ -80,7 +80,7 @@ export default function Achievements() {
     return () => window.removeEventListener('resize', updateDistance);
   }, []);
 
-  // Apple scroll-scrub: maps vertical scroll through 280vh to horizontal translation
+  // Apple scroll-scrub: maps vertical scroll through section height to horizontal translation
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end end'],
@@ -89,10 +89,10 @@ export default function Achievements() {
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 90, damping: 25, restDelta: 0.001 });
   const x = useTransform(smoothProgress, [0, 1], [0, -scrollDistance]);
 
-  // Section dissolve transition into Showcase Portals
-  const trackOpacity = useTransform(smoothProgress, [0, 0.04, 0.88, 1], [0.85, 1, 1, 0]);
-  const trackScale = useTransform(smoothProgress, [0, 0.04, 0.88, 1], [0.985, 1, 1, 0.96]);
-  const trackBlurVal = useTransform(smoothProgress, [0.88, 1], [0, 4]);
+  // Crisp 100% opacity throughout section, dissolving cleanly at the very end
+  const trackOpacity = useTransform(smoothProgress, [0, 0.9, 1], [1, 1, 0]);
+  const trackScale = useTransform(smoothProgress, [0, 0.9, 1], [1, 1, 0.96]);
+  const trackBlurVal = useTransform(smoothProgress, [0.9, 1], [0, 4]);
   const trackBlur = useTransform(trackBlurVal, (v) => `blur(${v}px)`);
 
   const [scrollHint, setScrollHint] = useState('Scroll down to explore achievements ↓');
@@ -170,41 +170,44 @@ export default function Achievements() {
       id="achievements"
       ref={sectionRef}
       className="relative w-full select-none z-20"
-      style={{ height: '280vh' }}
+      style={{ height }}
     >
       {/* ── STICKY VIEWPORT CONTAINER (Pins to screen during vertical scroll scrub) ── */}
-      <div className="sticky top-0 w-full h-[100vh] flex flex-col justify-between overflow-hidden" style={{ background: 'transparent' }}>
-        
-        {/* ════════════════ TOP HEADER BAR (#8e8e8e) ════════════════ */}
-        <div className="relative w-full bg-[#8e8e8e] h-[50px] sm:h-[60px] lg:h-[74px] flex items-end z-20 shrink-0">
-          <div className="relative w-full h-full flex items-end z-50 pl-0 sm:pl-2 lg:pl-4">
-            <div
-              className="inline-block relative z-50"
-              style={{
-                marginLeft: '-4px',
-                transform: 'translateY(24.8%)',
-              }}
-            >
-              <motion.h2
-                initial={{ opacity: 0, x: -40, filter: 'blur(8px)' }}
-                whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="font-montserrat font-normal text-paper-match text-[#ededeb] text-[clamp(2.1rem,6vw,5.8rem)] leading-none tracking-tight select-none"
+      <div className="sticky top-[43px] w-full h-[calc(100vh-43px)] flex flex-col justify-between overflow-hidden" style={{ background: 'transparent' }}>
+        <motion.div
+          style={{ opacity: trackOpacity, scale: trackScale, filter: trackBlur }}
+          className="w-full h-full flex flex-col justify-between overflow-hidden"
+        >
+          {/* ════════════════ TOP HEADER BAR (#8e8e8e) ════════════════ */}
+          <div className="relative w-full bg-[#8e8e8e] h-[50px] sm:h-[60px] lg:h-[74px] flex items-end z-20 shrink-0">
+            <div className="relative w-full h-full flex items-end z-50 pl-0 sm:pl-2 lg:pl-4">
+              <div
+                className="inline-block relative z-50"
+                style={{
+                  marginLeft: '-4px',
+                  transform: 'translateY(24.8%)',
+                }}
               >
-                Achievements
-              </motion.h2>
+                <motion.h2
+                  initial={{ opacity: 0, x: -40, filter: 'blur(8px)' }}
+                  whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                  className="font-montserrat font-normal text-paper-match text-[#ededeb] text-[clamp(2.1rem,6vw,5.8rem)] leading-none tracking-tight select-none"
+                >
+                  Achievements
+                </motion.h2>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* ════════════════ SCROLL-DRIVEN HORIZONTAL TREE TRACK ════════════════ */}
-        <div className="relative w-full flex-grow flex flex-col justify-center overflow-hidden py-1">
-          <motion.div
-            ref={trackRef}
-            style={{ x, opacity: trackOpacity, scale: trackScale, filter: trackBlur }}
-            className="flex gap-6 sm:gap-8 px-8 sm:px-14 lg:px-20 relative py-2 w-max items-center"
-          >
+          {/* ════════════════ SCROLL-DRIVEN HORIZONTAL TREE TRACK ════════════════ */}
+          <div className="relative w-full flex-grow flex flex-col justify-center overflow-hidden py-1">
+            <motion.div
+              ref={trackRef}
+              style={{ x }}
+              className="flex gap-6 sm:gap-8 px-8 sm:px-14 lg:px-20 relative py-2 w-max items-center"
+            >
             {/* ── Continuous Horizontal Trunk Axis Line ── */}
             <div className="absolute left-8 right-8 top-1/2 -translate-y-1/2 h-[2.5px] bg-[#5c5c5c]/30 rounded-full z-0 pointer-events-none">
               <motion.div
@@ -470,7 +473,8 @@ export default function Achievements() {
           className="w-full bg-[#8e8e8e] h-[15px] sm:h-[28px] lg:h-[40px] shrink-0 z-20"
           data-testid="achievements-bottom-tab"
         />
-      </div>
-    </section>
+      </motion.div>
+    </div>
+  </section>
   );
 }
